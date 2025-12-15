@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 
-const Register = () => {
+export default function LoginPage() {
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
 
@@ -9,7 +9,7 @@ const Register = () => {
     <form
       onSubmit={async (event) => {
         event.preventDefault();
-        await fetch("/api/register/", {
+        await fetch("/api/login/", {
           method: "POST",
           body: JSON.stringify({ name, password }),
         });
@@ -27,9 +27,7 @@ const Register = () => {
           setPassword(event.target.value);
         }}
       />
-      <button>Register</button>
+      <button>Submit</button>
     </form>
   );
-};
-
-export default Register;
+}
