@@ -20,10 +20,10 @@ export const studentsTable = pgTable("students", {
   id: integer().primaryKey().generatedAlwaysAsIdentity(),
   userId: integer()
     .notNull()
-    .references(() => classesTable.id, { onDelete: "cascade" }),
+    .references(() => usersTable.id, { onDelete: "cascade" }),
   classId: integer()
     .notNull()
-    .references(() => usersTable.id, { onDelete: "cascade" }),
+    .references(() => classesTable.id, { onDelete: "cascade" }),
 });
 
 export const usersRelations = relations(usersTable, ({ many }) => ({
@@ -31,12 +31,21 @@ export const usersRelations = relations(usersTable, ({ many }) => ({
   students: many(studentsTable),
 }));
 
-export const classesRelations = relations(usersTable, ({ one, many }) => ({
-  teacher: one(usersTable),
+export const classesRelations = relations(classesTable, ({ one, many }) => ({
+  teacher: one(usersTable, {
+    fields: [classesTable.teacherUserId],
+    references: [usersTable.id],
+  }),
   students: many(studentsTable),
 }));
 
-export const studentsRelations = relations(usersTable, ({ one, many }) => ({
-  user: one(usersTable),
-  class: one(classesTable),
+export const studentsRelations = relations(studentsTable, ({ one }) => ({
+  user: one(usersTable, {
+    fields: [studentsTable.userId],
+    references: [usersTable.id],
+  }),
+  class: one(classesTable, {
+    fields: [studentsTable.classId],
+    references: [classesTable.id],
+  }),
 }));

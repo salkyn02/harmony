@@ -1,4 +1,5 @@
 "use client";
+import CreateClassBtn from "@/components/CreateClassBtn";
 import { useState } from "react";
 
 export default function LoginPage() {
@@ -6,28 +7,31 @@ export default function LoginPage() {
   const [password, setPassword] = useState("");
 
   return (
-    <form
-      onSubmit={async (event) => {
-        event.preventDefault();
-        await fetch("/api/login/", {
-          method: "POST",
-          body: JSON.stringify({ name, password }),
-        });
-      }}
-    >
-      <input
-        value={name}
-        onChange={(event) => {
-          setName(event.target.value);
+    <div>
+      <form
+        onSubmit={async (event) => {
+          event.preventDefault();
+          await fetch("/api/login/", {
+            method: "POST",
+            body: JSON.stringify({ name, password }),
+          });
         }}
-      />
-      <input
-        value={password}
-        onChange={(event) => {
-          setPassword(event.target.value);
-        }}
-      />
-      <button>Submit</button>
-    </form>
+      >
+        <input
+          value={name}
+          onChange={(event) => {
+            setName(event.target.value);
+          }}
+        />
+        <input
+          value={password}
+          onChange={(event) => {
+            setPassword(event.target.value);
+          }}
+        />
+        <button>Submit</button>
+      </form>
+    
+    </div>
   );
 }
