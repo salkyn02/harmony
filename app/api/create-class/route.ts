@@ -11,7 +11,10 @@ export async function POST(request: Request) {
     where: eq(classesTable.teacherUserId, user.id),
   });
   if (existingClass) {
-    throw new Error("Class already exist");
+    return NextResponse.json(
+      { message: "Class already exist" },
+      { status: 500 }
+    );
   }
   await db.insert(classesTable).values({ teacherUserId: user.id });
 

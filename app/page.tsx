@@ -1,12 +1,13 @@
 import db from "@/db";
 import { Profile } from "../components/Profile";
-import CreateClassBtn from "@/components/CreateClassBtn";
+import { CreateClassBtn } from "@/components/CreateClassBtn";
 import { usersTable } from "@/schema";
 import { eq } from "drizzle-orm";
 import { cookies } from "next/headers";
 import jwt from "jsonwebtoken";
 import { LogOutBtn } from "@/components/LogOutBtn";
-import { JoinClassBtn } from "@/components/JoinClassBtn";
+import Link from "next/link";
+import { ClassList } from "@/components/ClassList";
 
 export default async function HomePage() {
   if (!process.env.JWT_SECRET) {
@@ -15,7 +16,16 @@ export default async function HomePage() {
   const cookiesStore = await cookies();
   const token = cookiesStore.get("token");
   if (!token) {
-    return <h2>Please login</h2>;
+    return (
+      <div>
+        <Link href={"/login"}>
+          <button>Login</button>
+        </Link>
+        <Link href={"/register"}>
+          <button>Register</button>
+        </Link>
+      </div>
+    );
   }
   const payload = jwt.verify(token.value, process.env.JWT_SECRET);
   if (typeof payload !== "object") {
@@ -28,7 +38,8 @@ export default async function HomePage() {
   if (!user) {
     throw new Error("User not found");
   }
-  const classes = await db.query.classesTable.findMany({
+
+  const relatedClasses = await db.query.classesTable.findMany({
     with: {
       teacher: true,
       students: {
@@ -38,29 +49,16 @@ export default async function HomePage() {
       },
     },
   });
-  console.log(classes);
-  const classItems = classes.map((classRow) => {
-    const studentsItems = classRow.students.map((student) => {
-      return <li key={student.id}>{student.user.name}</li>;
-    });
-    return (
-      <div key={classRow.id}>
-        <h3>
-          Teacher: {classRow.teacher.name}{" "}
-          <JoinClassBtn classId={classRow.id} />
-        </h3>
-        <ol>{studentsItems}</ol>
-      </div>
-    );
-  });
 
   return (
     <div>
       <Profile user={user} />
-      <LogOutBtn />
-      <CreateClassBtn />
-      Class count: {classes.length}
-      {classItems}
+
+      <h3>
+        Class count: {relatedClasses.length}{" "}
+        <CreateClassBtn userId={user.id} classes={relatedClasses} />
+      </h3>
+      <ClassList classes={relatedClasses} userId={user.id} />
     </div>
   );
 }
