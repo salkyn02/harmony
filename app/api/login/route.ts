@@ -16,7 +16,7 @@ export async function POST(request: Request) {
   }
   const isPasswordValid = bcrypt.compareSync(
     body.password,
-    existingUser.password
+    existingUser.password,
   );
   if (!isPasswordValid) {
     return NextResponse.json({ ok: false }, { status: 400 });
@@ -28,7 +28,7 @@ export async function POST(request: Request) {
   const token = jwt.sign(payload, process.env.JWT_SECRET, {
     expiresIn: "2d",
   });
-
+  console.log("Generated JWT token:", token); // Debugging log
   const cookiesStore = await cookies();
   cookiesStore.set("token", token);
 

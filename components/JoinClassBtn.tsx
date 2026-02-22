@@ -1,31 +1,35 @@
 "use client";
 
-import { RelatedStudent } from "@/types";
+import { RelatedStudent, Student } from "@/types";
 import { FC, useState } from "react";
 
 export const JoinClassBtn: FC<{
   classId: number;
   userId: number;
   students: RelatedStudent[];
-}> = ({ classId, userId, students }) => {
+  addStudent: (classId: number, student: Student) => void;
+  removeStudent: (classId: number, studentId: number) => void;
+}> = ({ classId, userId, students, addStudent, removeStudent }) => {
   const [loading, setLoading] = useState(false);
-  const alreadyStudent = students.some((student) => {
+  const student = students.find((student) => {
     return student.userId === userId;
   });
 
-  if (alreadyStudent) {
+  if (student) {
     return (
       <button
         onClick={async () => {
           setLoading(true);
-          const data = { classId };
-          const body = JSON.stringify(data);
+          const body = JSON.stringify({ classId });
           const response = await fetch("/api/leave-class", {
             method: "POST",
             body,
           });
-          if (!response.ok) {
-            const data = await response.json();
+          const data = await response.json();
+          console.log(data);
+          if (response.ok) {
+            removeStudent(classId, student.id);
+          } else {
             alert(data.message);
           }
           setLoading(false);
@@ -40,14 +44,15 @@ export const JoinClassBtn: FC<{
     <button
       onClick={async () => {
         setLoading(true);
-        const data = { classId };
-        const body = JSON.stringify(data);
+        const body = JSON.stringify({ classId });
         const response = await fetch("/api/join-class", {
           method: "POST",
           body,
         });
-        if (!response.ok) {
-          const data = await response.json();
+        const data = await response.json();
+        if (response.ok) {
+          addStudent(classId, data.student);
+        } else {
           alert(data.message);
         }
         setLoading(false);

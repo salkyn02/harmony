@@ -11,17 +11,19 @@ export async function POST(request: Request) {
   const existingStudent = await db.query.studentsTable.findFirst({
     where: and(
       eq(studentsTable.userId, user.id),
-      eq(studentsTable.classId, body.classId)
+      eq(studentsTable.classId, body.classId),
     ),
   });
   if (existingStudent) {
     return NextResponse.json(
       { message: "You have already joined this class" },
-      { status: 500 }
+      { status: 500 },
     );
   }
-  await db
+  const [student] = await db
     .insert(studentsTable)
-    .values({ userId: user.id, classId: body.classId });
-  return NextResponse.json({ ok: true });
+    .values({ userId: user.id, classId: body.classId })
+    .returning();
+
+  return NextResponse.json({ ok: true, student });
 }

@@ -1,13 +1,11 @@
 import db from "@/db";
 import { Profile } from "../components/Profile";
-import { CreateClassBtn } from "@/components/CreateClassBtn";
 import { usersTable } from "@/schema";
 import { eq } from "drizzle-orm";
 import { cookies } from "next/headers";
 import jwt from "jsonwebtoken";
-import { LogOutBtn } from "@/components/LogOutBtn";
 import Link from "next/link";
-import { ClassList } from "@/components/ClassList";
+import { ClassController } from "@/components/ClassController";
 
 export default async function HomePage() {
   if (!process.env.JWT_SECRET) {
@@ -54,11 +52,7 @@ export default async function HomePage() {
     <div>
       <Profile user={user} />
 
-      <h3>
-        Class count: {relatedClasses.length}{" "}
-        <CreateClassBtn userId={user.id} classes={relatedClasses} />
-      </h3>
-      <ClassList classes={relatedClasses} userId={user.id} />
+      <ClassController user={user} userId={user.id} classes={relatedClasses} />
     </div>
   );
 }
