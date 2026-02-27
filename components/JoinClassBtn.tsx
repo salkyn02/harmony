@@ -26,7 +26,6 @@ export const JoinClassBtn: FC<{
             body,
           });
           const data = await response.json();
-          console.log(data);
           if (response.ok) {
             removeStudent(classId, student.id);
           } else {

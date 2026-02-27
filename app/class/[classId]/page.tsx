@@ -1,5 +1,7 @@
+import { ClassPageContent } from "@/components/ClassPageContent";
 import db from "@/db";
 import { classesTable } from "@/schema";
+import authenticateRedirect from "@/utils/authenticateRedirect";
 import { eq } from "drizzle-orm";
 
 interface ClassPageProps {
@@ -7,6 +9,7 @@ interface ClassPageProps {
 }
 
 export default async function ClassPage({ params }: ClassPageProps) {
+  const user = await authenticateRedirect();
   const awaited = await params;
   const classIdNumber = Number(awaited.classId);
   const classCondition = eq(classesTable.id, classIdNumber);
@@ -14,12 +17,16 @@ export default async function ClassPage({ params }: ClassPageProps) {
     where: classCondition,
     with: {
       teacher: true,
-      students: true,
+      students: {
+        with: {
+          user: true,
+        },
+      },
     },
   });
   if (!classRow) {
     return <div>Class not found</div>;
   }
   console.log(classRow);
-  return <div>{classRow.teacher.name}</div>;
+  return <ClassPageContent relatedClass={classRow} user={user} />;
 }

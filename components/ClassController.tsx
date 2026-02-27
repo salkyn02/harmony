@@ -40,6 +40,7 @@ export const ClassController: FC<{
       const newStudents = relatedClass.students.filter((student) => {
         return student.id !== studentId;
       });
+      
       const newRelatedClass = {
         ...relatedClass,
         students: newStudents,
