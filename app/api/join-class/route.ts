@@ -1,11 +1,11 @@
-import { guardUser } from "@/guardUser";
 import db from "@/db";
 import { eq, and } from "drizzle-orm";
 import { studentsTable } from "@/schema";
 import { NextResponse } from "next/server";
+import authenticate from "@/utils/authenticate";
 
 export async function POST(request: Request) {
-  const user = await guardUser();
+  const user = await authenticate();
   const body = await request.json();
 
   const existingStudent = await db.query.studentsTable.findFirst({

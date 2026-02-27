@@ -1,4 +1,4 @@
-import { integer, pgTable, text } from "drizzle-orm/pg-core";
+import { integer, pgTable, text, timestamp } from "drizzle-orm/pg-core";
 import { relations } from "drizzle-orm";
 
 export const usersTable = pgTable("users", {
@@ -26,9 +26,22 @@ export const studentsTable = pgTable("students", {
     .references(() => classesTable.id, { onDelete: "cascade" }),
 });
 
+export const messagesTable = pgTable("messages", {
+  id: integer().primaryKey().generatedAlwaysAsIdentity(),
+  userId: integer()
+    .notNull()
+    .references(() => usersTable.id, { onDelete: "cascade" }),
+  classId: integer()
+    .notNull()
+    .references(() => classesTable.id, { onDelete: "cascade" }),
+  content: text().notNull(),
+  createdAt: timestamp().defaultNow().notNull(),
+});
+
 export const usersRelations = relations(usersTable, ({ many }) => ({
   classes: many(classesTable),
   students: many(studentsTable),
+  messages: many(messagesTable),
 }));
 
 export const classesRelations = relations(classesTable, ({ one, many }) => ({
@@ -37,6 +50,7 @@ export const classesRelations = relations(classesTable, ({ one, many }) => ({
     references: [usersTable.id],
   }),
   students: many(studentsTable),
+  messages: many(messagesTable),
 }));
 
 export const studentsRelations = relations(studentsTable, ({ one }) => ({
@@ -46,6 +60,17 @@ export const studentsRelations = relations(studentsTable, ({ one }) => ({
   }),
   class: one(classesTable, {
     fields: [studentsTable.classId],
+    references: [classesTable.id],
+  }),
+}));
+
+export const messagesRelations = relations(messagesTable, ({ one }) => ({
+  user: one(usersTable, {
+    fields: [messagesTable.userId],
+    references: [usersTable.id],
+  }),
+  class: one(classesTable, {
+    fields: [messagesTable.classId],
     references: [classesTable.id],
   }),
 }));
