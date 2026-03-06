@@ -1,14 +1,18 @@
 "use client";
 
-import { RelatedClass, RelatedStudent, Student, User } from "@/types";
+import { Message, RelatedClass, RelatedStudent, Student, User } from "@/types";
 import { FC, useState } from "react";
 import ClassDetails from "./ClassDetails";
+import { CreateMessageForm } from "./CreateMessageForm";
+import { MessageList } from "./MessageList";
 
 export const ClassPageContent: FC<{
   relatedClass: RelatedClass;
   user: User;
-}> = ({ relatedClass, user }) => {
+  messageRows: Message[];
+}> = ({ relatedClass, user, messageRows }) => {
   const [classRow, setClassRow] = useState(relatedClass);
+  const [messages, setMessages] = useState(messageRows);
 
   function addStudent(classId: number, student: Student) {
     const newStudent: RelatedStudent = {
@@ -39,11 +43,15 @@ export const ClassPageContent: FC<{
   }
 
   return (
-    <ClassDetails
-      classRow={classRow}
-      userId={user.id}
-      addStudent={addStudent}
-      removeStudent={removeStudent}
-    />
+    <>
+      <ClassDetails
+        classRow={classRow}
+        userId={user.id}
+        addStudent={addStudent}
+        removeStudent={removeStudent}
+      />
+      <CreateMessageForm classId={relatedClass.id} />
+      <MessageList messages={messages} />
+    </>
   );
 };

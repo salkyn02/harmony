@@ -1,6 +1,6 @@
 import { ClassPageContent } from "@/components/ClassPageContent";
 import db from "@/db";
-import { classesTable } from "@/schema";
+import { classesTable, messagesTable } from "@/schema";
 import authenticateRedirect from "@/utils/authenticateRedirect";
 import { eq } from "drizzle-orm";
 
@@ -27,6 +27,16 @@ export default async function ClassPage({ params }: ClassPageProps) {
   if (!classRow) {
     return <div>Class not found</div>;
   }
+  const messageCondition = eq(messagesTable.classId, classRow.id);
+  const messages = await db.query.messagesTable.findMany({
+    where: messageCondition,
+  });
   console.log(classRow);
-  return <ClassPageContent relatedClass={classRow} user={user} />;
+  return (
+    <ClassPageContent
+      relatedClass={classRow}
+      user={user}
+      messageRows={messages}
+    />
+  );
 }
