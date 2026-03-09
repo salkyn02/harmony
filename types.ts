@@ -21,3 +21,7 @@ export type RelatedClass = Class & {
 };
 
 export type Message = typeof messagesTable.$inferSelect;
+
+export type RelatedMessage = Message & {
+  user: User;
+};

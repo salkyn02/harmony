@@ -1,5 +1,6 @@
 import db from "@/db";
 import { classesTable, messagesTable } from "@/schema";
+import { RelatedMessage } from "@/types";
 import authenticate from "@/utils/authenticate";
 import { eq } from "drizzle-orm";
 import { NextResponse } from "next/server";
@@ -27,11 +28,17 @@ export async function POST(request: Request) {
       { status: 400 },
     );
   }
-  await db.insert(messagesTable).values({
-    classId: classId,
-    userId: user.id,
-    content: body.content,
-  });
-
-  return NextResponse.json({ ok: true });
+  const [message] = await db
+    .insert(messagesTable)
+    .values({
+      classId: classId,
+      userId: user.id,
+      content: body.content,
+    })
+    .returning();
+  const relatedMessage: RelatedMessage = {
+    ...message,
+    user,
+  };
+  return NextResponse.json({ ok: true, message: relatedMessage });
 }

@@ -30,6 +30,9 @@ export default async function ClassPage({ params }: ClassPageProps) {
   const messageCondition = eq(messagesTable.classId, classRow.id);
   const messages = await db.query.messagesTable.findMany({
     where: messageCondition,
+    with: {
+      user: true,
+    },
   });
   console.log(classRow);
   return (

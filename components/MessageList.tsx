@@ -1,18 +1,19 @@
-import { Message } from "@/types";
+import { RelatedMessage } from "@/types";
 import { FC } from "react";
 
 export const MessageList: FC<{
-  messages: Message[];
+  messages: RelatedMessage[];
 }> = ({ messages }) => {
   return (
-    <ul>
+    <>
       {messages.map((message) => {
         return (
-          <li key={message.id}>
-            {message.content} [{message.createdAt.toLocaleString()}]
-          </li>
+          <div key={message.id}>
+            {message.user.name}: {message.content} [
+            {message.createdAt.toLocaleString()}]
+          </div>
         );
       })}
-    </ul>
+    </>
   );
 };

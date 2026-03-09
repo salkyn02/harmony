@@ -1,10 +1,12 @@
 "use client";
 
+import { RelatedMessage } from "@/types";
 import { FC, useState } from "react";
 
 export const CreateMessageForm: FC<{
   classId: number;
-}> = ({ classId }) => {
+  addMessage: (newMessage: RelatedMessage) => void;
+}> = ({ classId, addMessage }) => {
   const [content, setContent] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -15,10 +17,12 @@ export const CreateMessageForm: FC<{
         onSubmit={async (event) => {
           setLoading(true);
           event.preventDefault();
-          await fetch("/api/create-message/", {
+          const response = await fetch("/api/create-message/", {
             method: "POST",
             body: JSON.stringify({ content, classId }),
           });
+          const data = await response.json();
+          addMessage(data.message);
           setLoading(false);
         }}
       >

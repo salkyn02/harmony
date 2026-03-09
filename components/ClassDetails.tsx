@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { JoinClassBtn } from "./JoinClassBtn";
 import { RelatedClass, Student } from "@/types";
+import { DeleteClassBtn } from "./DeleteClassBtn";
 
 interface ClassDetailsProps {
   classRow: RelatedClass;
@@ -30,6 +31,8 @@ export default function ClassDetails({
           addStudent={addStudent}
           removeStudent={removeStudent}
         />
+        {" "}
+        <DeleteClassBtn classId={classRow.id} />
       </h3>
       <ol>{studentsItems}</ol>
     </div>
