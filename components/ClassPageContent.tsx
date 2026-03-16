@@ -1,5 +1,7 @@
 "use client";
 
+import { useRouter } from "next/navigation";
+
 import {
   RelatedMessage,
   RelatedClass,
@@ -19,6 +21,7 @@ export const ClassPageContent: FC<{
 }> = ({ relatedClass, user, messageRows }) => {
   const [classRow, setClassRow] = useState(relatedClass);
   const [messages, setMessages] = useState(messageRows);
+  const router = useRouter();
 
   function addMessage(newMessage: RelatedMessage) {
     const newMessages = [...messages, newMessage];
@@ -53,6 +56,10 @@ export const ClassPageContent: FC<{
     setClassRow(newRelatedClass);
   }
 
+  function deleteClass() {
+    router.push("/");
+  }
+
   return (
     <>
       <ClassDetails
@@ -60,8 +67,9 @@ export const ClassPageContent: FC<{
         userId={user.id}
         addStudent={addStudent}
         removeStudent={removeStudent}
+        deleteClass={deleteClass}
       />
-      <CreateMessageForm classId={relatedClass.id} addMessage={addMessage}/>
+      <CreateMessageForm classId={relatedClass.id} addMessage={addMessage} />
       <MessageList messages={messages} />
     </>
   );

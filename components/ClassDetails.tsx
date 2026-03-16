@@ -8,6 +8,7 @@ interface ClassDetailsProps {
   userId: number;
   addStudent: (classId: number, student: Student) => void;
   removeStudent: (classId: number, studentId: number) => void;
+  deleteClass: (classId: number) => void;
 }
 
 export default function ClassDetails({
@@ -15,6 +16,7 @@ export default function ClassDetails({
   userId,
   addStudent,
   removeStudent,
+  deleteClass,
 }: ClassDetailsProps) {
   const studentsItems = classRow.students.map((student) => {
     return <li key={student.id}>{student.user.name}</li>;
@@ -30,9 +32,14 @@ export default function ClassDetails({
           userId={userId}
           addStudent={addStudent}
           removeStudent={removeStudent}
+          teacherUserId={classRow.teacherUserId}
+        />{" "}
+        <DeleteClassBtn
+          classId={classRow.id}
+          teacherUserId={classRow.teacherUserId}
+          currentUserId={userId}
+          deleteClass={deleteClass}
         />
-        {" "}
-        <DeleteClassBtn classId={classRow.id} />
       </h3>
       <ol>{studentsItems}</ol>
     </div>

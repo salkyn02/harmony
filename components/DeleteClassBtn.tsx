@@ -1,14 +1,19 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+
 import { FC, useState } from "react";
 
 export const DeleteClassBtn: FC<{
   classId: number;
-}> = ({ classId }) => {
+  currentUserId: number;
+  teacherUserId: number;
+  deleteClass: (classId: number) => void;
+}> = ({ classId, currentUserId, teacherUserId, deleteClass }) => {
   const [loading, setLoading] = useState(false);
-  const router = useRouter();
-
+ 
+  if (currentUserId !== teacherUserId) {
+    return <></>;
+  }
   return (
     <button
       onClick={async () => {
@@ -18,7 +23,8 @@ export const DeleteClassBtn: FC<{
         });
         const data = await response.json();
         if (response.ok) {
-          router.push("/");
+          deleteClass(classId);
+         
         } else {
           alert(data.message);
         }

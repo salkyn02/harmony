@@ -7,7 +7,8 @@ export const ClassList: FC<{
   userId: number;
   addStudent: (classId: number, student: Student) => void;
   removeStudent: (classId: number, studentId: number) => void;
-}> = ({ classes, userId, addStudent, removeStudent }) => {
+  deleteClass: (classId: number) => void;
+}> = ({ classes, userId, addStudent, removeStudent, deleteClass }) => {
   const classItems = classes.map((classRow) => {
     return (
       <ClassDetails
@@ -16,6 +17,7 @@ export const ClassList: FC<{
         userId={userId}
         addStudent={addStudent}
         removeStudent={removeStudent}
+        deleteClass={deleteClass}
       />
     );
   });

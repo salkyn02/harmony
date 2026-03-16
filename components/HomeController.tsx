@@ -5,7 +5,7 @@ import { FC, useState } from "react";
 import { ClassList } from "./ClassList";
 import { CreateClassBtn } from "./CreateClassBtn";
 
-export const ClassController: FC<{
+export const HomeController: FC<{
   classes: RelatedClass[];
   userId: number;
   user: User;
@@ -40,7 +40,7 @@ export const ClassController: FC<{
       const newStudents = relatedClass.students.filter((student) => {
         return student.id !== studentId;
       });
-      
+
       const newRelatedClass = {
         ...relatedClass,
         students: newStudents,
@@ -50,17 +50,34 @@ export const ClassController: FC<{
     setRelatedClasses(newClasses);
   }
 
+  function deleteClass(classId: number) {
+    const newClasses = relatedClasses.filter((relatedClass) => {
+      return relatedClass.id !== classId;
+    });
+    setRelatedClasses(newClasses);
+  }
+
+  function addClass(classRow: RelatedClass) {
+    const newClasses = [...relatedClasses, classRow];
+    setRelatedClasses(newClasses);
+  }
+
   return (
     <>
       <h3>
         Class count: {relatedClasses.length}{" "}
-        <CreateClassBtn userId={userId} classes={relatedClasses} />
+        <CreateClassBtn
+          userId={userId}
+          classes={relatedClasses}
+          addClass={addClass}
+        />
       </h3>
       <ClassList
         classes={relatedClasses}
         userId={userId}
         addStudent={addStudent}
         removeStudent={removeStudent}
+        deleteClass={deleteClass}
       />
     </>
   );

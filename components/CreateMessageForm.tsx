@@ -22,7 +22,13 @@ export const CreateMessageForm: FC<{
             body: JSON.stringify({ content, classId }),
           });
           const data = await response.json();
-          addMessage(data.message);
+
+          if (response.ok) {
+            addMessage(data.message);
+          } else {
+            alert(data.message);
+          }
+
           setLoading(false);
         }}
       >

@@ -12,7 +12,6 @@ export async function POST (request: Request){
   if (existingUser){
     return NextResponse.json({ok: false}, {status: 400})
   }
-  console.log(body)
   const password = bcrypt.hashSync(body.password, 10)
   await db.insert(usersTable).values({password, name: body.name})
   return NextResponse.json({ok: true})

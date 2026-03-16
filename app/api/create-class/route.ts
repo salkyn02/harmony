@@ -1,5 +1,6 @@
 import db from "@/db";
 import { classesTable } from "@/schema";
+import { RelatedClass } from "@/types";
 import authenticate from "@/utils/authenticate";
 import { eq } from "drizzle-orm";
 import { NextResponse } from "next/server";
@@ -16,7 +17,15 @@ export async function POST() {
       { status: 500 },
     );
   }
-  await db.insert(classesTable).values({ teacherUserId: user.id });
+  const [classRow] = await db
+    .insert(classesTable)
+    .values({ teacherUserId: user.id })
+    .returning();
+  const relatedClass: RelatedClass = {
+    ...classRow,
+    teacher: user,
+    students: [],
+  };
 
-  return NextResponse.json({ ok: true });
+  return NextResponse.json({ ok: true, class: relatedClass });
 }

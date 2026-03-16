@@ -6,7 +6,8 @@ import { FC, useState } from "react";
 export const CreateClassBtn: FC<{
   userId: number;
   classes: RelatedClass[];
-}> = ({ userId, classes }) => {
+  addClass: (classRow: RelatedClass) => void;
+}> = ({ userId, classes, addClass }) => {
   const [loading, setLoading] = useState(false);
   const alreadyTeacher = classes.some((classRow) => {
     return classRow.teacherUserId === userId;
@@ -14,7 +15,7 @@ export const CreateClassBtn: FC<{
   if (alreadyTeacher) {
     return undefined;
   }
-  
+
   return (
     <button
       onClick={async () => {
@@ -23,6 +24,9 @@ export const CreateClassBtn: FC<{
         if (!response.ok) {
           const data = await response.json();
           alert(data.message);
+        } else {
+          const data = await response.json();
+          addClass(data.class);
         }
         setLoading(false);
       }}

@@ -9,12 +9,24 @@ export const JoinClassBtn: FC<{
   students: RelatedStudent[];
   addStudent: (classId: number, student: Student) => void;
   removeStudent: (classId: number, studentId: number) => void;
-}> = ({ classId, userId, students, addStudent, removeStudent }) => {
+  teacherUserId: number;
+}> = ({
+  classId,
+  userId,
+  students,
+  addStudent,
+  removeStudent,
+  teacherUserId,
+}) => {
   const [loading, setLoading] = useState(false);
   const student = students.find((student) => {
     return student.userId === userId;
   });
 
+  if (userId === teacherUserId) {
+    return <></>;
+  }
+  
   if (student) {
     return (
       <button

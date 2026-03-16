@@ -28,7 +28,6 @@ export async function POST(request: Request) {
   const token = jwt.sign(payload, process.env.JWT_SECRET, {
     expiresIn: "2d",
   });
-  console.log("Generated JWT token:", token); // Debugging log
   const cookiesStore = await cookies();
   cookiesStore.set("token", token);
 
