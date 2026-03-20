@@ -21,11 +21,24 @@ export default function ClassDetails({
   const studentsItems = classRow.students.map((student) => {
     return <li key={student.id}>{student.user.name}</li>;
   });
+
+  const isStudentInClass = classRow.students.some((student) => {
+    return student.userId === userId;
+  });
+
+  const isTeacher = classRow.teacherUserId === userId;
+
+  const canOpenClass = isStudentInClass || isTeacher;
+
   return (
     <div>
-      <h3>
+      <h3>  
         Teacher:{" "}
-        <Link href={`/class/${classRow.id}`}>{classRow.teacher.name}</Link>{" "}
+        {canOpenClass ? (
+          <Link href={`/class/${classRow.id}`}>{classRow.teacher.name}</Link>
+        ) : (
+          classRow.teacher.name
+        )}
         <JoinClassBtn
           classId={classRow.id}
           students={classRow.students}

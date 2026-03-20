@@ -5,6 +5,7 @@ import { FC, useState } from "react";
 import { ClassList } from "./ClassList";
 import { CreateClassBtn } from "./CreateClassBtn";
 
+
 export const HomeController: FC<{
   classes: RelatedClass[];
   userId: number;
@@ -64,6 +65,8 @@ export const HomeController: FC<{
 
   return (
     <>
+   
+    <audio src="https://res.cloudinary.com/dozrfojo0/video/upload/v1773699757/test.mp3" controls/>
       <h3>
         Class count: {relatedClasses.length}{" "}
         <CreateClassBtn
@@ -79,6 +82,7 @@ export const HomeController: FC<{
         removeStudent={removeStudent}
         deleteClass={deleteClass}
       />
+
     </>
   );
 };

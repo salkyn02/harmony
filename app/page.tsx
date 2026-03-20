@@ -4,7 +4,7 @@ import { HomeController } from "@/components/HomeController";
 import authenticateRedirect from "@/utils/authenticateRedirect";
 
 export default async function HomePage() {
-  console.log('Load home page')
+
   const user = await authenticateRedirect();
 
   const relatedClasses = await db.query.classesTable.findMany({

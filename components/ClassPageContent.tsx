@@ -13,6 +13,7 @@ import { FC, useState } from "react";
 import ClassDetails from "./ClassDetails";
 import { CreateMessageForm } from "./CreateMessageForm";
 import { MessageList } from "./MessageList";
+import { AudioForm } from "./AudioForm";
 
 export const ClassPageContent: FC<{
   relatedClass: RelatedClass;
@@ -69,6 +70,7 @@ export const ClassPageContent: FC<{
         removeStudent={removeStudent}
         deleteClass={deleteClass}
       />
+      <AudioForm classId={relatedClass.id}/>
       <CreateMessageForm classId={relatedClass.id} addMessage={addMessage} />
       <MessageList messages={messages} />
     </>
