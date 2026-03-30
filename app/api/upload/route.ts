@@ -1,5 +1,6 @@
 import db from "@/db";
 import { audiosTable } from "@/schema";
+import { RelatedAudio } from "@/types";
 import authenticate from "@/utils/authenticate";
 import { v2 } from "cloudinary";
 import { NextResponse } from "next/server";
@@ -41,8 +42,10 @@ export async function POST(request: Request) {
   const result = await v2.uploader.upload(dataURI, {
     resource_type: "video",
   });
-  await db
+  const [audio] = await db
     .insert(audiosTable)
-    .values({ userId: user.id, url: result.url, classId: Number(classId) });
-  return NextResponse.json(result);
+    .values({ userId: user.id, url: result.url, classId: Number(classId) })
+    .returning();
+
+  return NextResponse.json(audio);
 }

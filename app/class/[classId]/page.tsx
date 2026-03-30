@@ -1,6 +1,6 @@
 import { ClassPageContent } from "@/components/ClassPageContent";
 import db from "@/db";
-import { classesTable, messagesTable } from "@/schema";
+import { audiosTable, classesTable, messagesTable } from "@/schema";
 import authenticateRedirect from "@/utils/authenticateRedirect";
 import isClassMember from "@/utils/isClassMember";
 import { eq } from "drizzle-orm";
@@ -29,7 +29,6 @@ export default async function ClassPage({ params }: ClassPageProps) {
     return <div>Class not found</div>;
   }
   const isMember = isClassMember(user, classRow);
-  console.log("Is Member", isMember);
   if (!isMember) {
     return <div>You are not in this class</div>;
   }
@@ -41,11 +40,20 @@ export default async function ClassPage({ params }: ClassPageProps) {
       user: true,
     },
   });
+    const audioCondition = eq(audiosTable.classId, classRow.id);
+   const audios = await db.query.audiosTable.findMany({
+    where: audioCondition,
+    with: {
+      user: true,
+    },
+  });
+  console.log('Audio time', audios)
   return (
     <ClassPageContent
       relatedClass={classRow}
       user={user}
       messageRows={messages}
+      audioRows={audios}
     />
   );
 }

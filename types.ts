@@ -1,4 +1,5 @@
 import {
+  audiosTable,
   classesTable,
   messagesTable,
   studentsTable,
@@ -25,3 +26,10 @@ export type Message = typeof messagesTable.$inferSelect;
 export type RelatedMessage = Message & {
   user: User;
 };
+
+export type Audio = typeof audiosTable.$inferSelect;
+
+
+export type RelatedAudio = Audio & {
+  user: User;
+}

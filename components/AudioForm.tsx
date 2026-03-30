@@ -1,11 +1,14 @@
 "use client";
 
-import { FC, useState } from "react";
+import { RelatedAudio } from "@/types";
+import { FC, useState, useRef } from "react";
 
 export const AudioForm: FC<{
   classId: number;
-}> = ({ classId }) => {
+  addAudio: (newAudio: RelatedAudio) => void;
+}> = ({ classId, addAudio }) => {
   const [loading, setLoading] = useState(false);
+  const inputRef = useRef<HTMLInputElement>(null);
   return (
     <form
       onSubmit={async (event) => {
@@ -18,11 +21,16 @@ export const AudioForm: FC<{
           body: formData,
         });
         const data = await response.json();
+        data.createdAt = new Date(data.createdAt);
         setLoading(false);
-        console.log(data);
+        addAudio(data);
+        if (inputRef.current == null) {
+          throw new Error("Input missing");
+        }
+        inputRef.current.value = "";
       }}
     >
-      <input type="file" name="file" />
+      <input type="file" name="file" ref={inputRef} />
       <button disabled={loading}>Submit</button>
     </form>
   );

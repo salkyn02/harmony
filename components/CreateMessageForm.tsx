@@ -22,7 +22,7 @@ export const CreateMessageForm: FC<{
             body: JSON.stringify({ content, classId }),
           });
           const data = await response.json();
-
+          data.message.createdAt = new Date(data.message.createdAt);
           if (response.ok) {
             addMessage(data.message);
           } else {
@@ -30,6 +30,7 @@ export const CreateMessageForm: FC<{
           }
 
           setLoading(false);
+          setContent('')
         }}
       >
         <input

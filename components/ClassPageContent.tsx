@@ -8,6 +8,8 @@ import {
   RelatedStudent,
   Student,
   User,
+  Audio,
+  RelatedAudio
 } from "@/types";
 import { FC, useState } from "react";
 import ClassDetails from "./ClassDetails";
@@ -19,14 +21,25 @@ export const ClassPageContent: FC<{
   relatedClass: RelatedClass;
   user: User;
   messageRows: RelatedMessage[];
-}> = ({ relatedClass, user, messageRows }) => {
+  audioRows: RelatedAudio[]
+}> = ({ relatedClass, user, messageRows, audioRows }) => {
   const [classRow, setClassRow] = useState(relatedClass);
   const [messages, setMessages] = useState(messageRows);
+  const [audios, setAudios] = useState(audioRows);
   const router = useRouter();
 
   function addMessage(newMessage: RelatedMessage) {
     const newMessages = [...messages, newMessage];
     setMessages(newMessages);
+  }
+
+    function addAudio(newAudio: Audio) {
+      const relatedAudio = {
+        ...newAudio,
+        user
+      }
+    const newAudios = [...audios, relatedAudio];
+    setAudios(newAudios);
   }
 
   function addStudent(classId: number, student: Student) {
@@ -70,9 +83,9 @@ export const ClassPageContent: FC<{
         removeStudent={removeStudent}
         deleteClass={deleteClass}
       />
-      <AudioForm classId={relatedClass.id}/>
+      <AudioForm classId={relatedClass.id} addAudio={addAudio}/>
       <CreateMessageForm classId={relatedClass.id} addMessage={addMessage} />
-      <MessageList messages={messages} />
+      <MessageList messages={messages} audios={audios} />
     </>
   );
 };

@@ -17,7 +17,6 @@ export default async function HomePage() {
       },
     },
   });
-  console.log('Download all classes')
   return (
     <div>
       <Profile user={user} />
