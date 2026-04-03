@@ -47,7 +47,6 @@ export default async function ClassPage({ params }: ClassPageProps) {
       user: true,
     },
   });
-  console.log('Audio time', audios)
   return (
     <ClassPageContent
       relatedClass={classRow}

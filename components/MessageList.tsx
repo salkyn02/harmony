@@ -1,5 +1,6 @@
 import { RelatedAudio, RelatedMessage } from "@/types";
 import { FC } from "react";
+import { AudioPlayer } from "./AudioPlayer";
 
 export const MessageList: FC<{
   messages: RelatedMessage[];
@@ -24,7 +25,7 @@ export const MessageList: FC<{
         }
         return (
           <div key={item.id}>
-            {item.user.name}: {item.url} [
+            {item.user.name}:  <AudioPlayer src={item.url} /> [
             {item.createdAt.toLocaleString()}]
           </div>
         );

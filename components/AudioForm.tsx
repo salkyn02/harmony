@@ -30,7 +30,7 @@ export const AudioForm: FC<{
         inputRef.current.value = "";
       }}
     >
-      <input type="file" name="file" ref={inputRef} />
+      <input type="file" name="file" ref={inputRef} accept="audio/*" />
       <button disabled={loading}>Submit</button>
     </form>
   );

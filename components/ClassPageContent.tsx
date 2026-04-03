@@ -1,5 +1,5 @@
 "use client";
-
+import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
 
 import {
@@ -16,6 +16,9 @@ import ClassDetails from "./ClassDetails";
 import { CreateMessageForm } from "./CreateMessageForm";
 import { MessageList } from "./MessageList";
 import { AudioForm } from "./AudioForm";
+const AudioRecorder = dynamic(()=>{
+  return import('./AudioRecorder')
+}, {ssr: false})
 
 export const ClassPageContent: FC<{
   relatedClass: RelatedClass;
@@ -84,7 +87,8 @@ export const ClassPageContent: FC<{
         deleteClass={deleteClass}
       />
       <AudioForm classId={relatedClass.id} addAudio={addAudio}/>
-      <CreateMessageForm classId={relatedClass.id} addMessage={addMessage} />
+      <CreateMessageForm classId={relatedClass.id} addMessage={addMessage} /> 
+      <AudioRecorder classId={relatedClass.id} addAudio={addAudio}/>
       <MessageList messages={messages} audios={audios} />
     </>
   );
