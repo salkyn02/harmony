@@ -9,26 +9,31 @@ import {
   Student,
   User,
   Audio,
-  RelatedAudio
+  RelatedAudio,
 } from "@/types";
 import { FC, useState } from "react";
 import ClassDetails from "./ClassDetails";
 import { CreateMessageForm } from "./CreateMessageForm";
 import { MessageList } from "./MessageList";
 import { AudioForm } from "./AudioForm";
-const AudioRecorder = dynamic(()=>{
-  return import('./AudioRecorder')
-}, {ssr: false})
+
+const AudioRecorder = dynamic(
+  () => {
+    return import("./AudioRecorder");
+  },
+  { ssr: false },
+);
 
 export const ClassPageContent: FC<{
   relatedClass: RelatedClass;
-  user: User;
+  currentUser: User;
   messageRows: RelatedMessage[];
-  audioRows: RelatedAudio[]
-}> = ({ relatedClass, user, messageRows, audioRows }) => {
+  audioRows: RelatedAudio[];
+}> = ({ relatedClass, currentUser, messageRows, audioRows }) => {
   const [classRow, setClassRow] = useState(relatedClass);
   const [messages, setMessages] = useState(messageRows);
   const [audios, setAudios] = useState(audioRows);
+
   const router = useRouter();
 
   function addMessage(newMessage: RelatedMessage) {
@@ -36,11 +41,11 @@ export const ClassPageContent: FC<{
     setMessages(newMessages);
   }
 
-    function addAudio(newAudio: Audio) {
-      const relatedAudio = {
-        ...newAudio,
-        user
-      }
+  function addAudio(newAudio: Audio) {
+    const relatedAudio = {
+      ...newAudio,
+      user: currentUser,
+    };
     const newAudios = [...audios, relatedAudio];
     setAudios(newAudios);
   }
@@ -48,7 +53,7 @@ export const ClassPageContent: FC<{
   function addStudent(classId: number, student: Student) {
     const newStudent: RelatedStudent = {
       ...student,
-      user,
+      user: currentUser,
     };
 
     const newStudents = [...relatedClass.students, newStudent];
@@ -77,19 +82,28 @@ export const ClassPageContent: FC<{
     router.push("/");
   }
 
+  function deleteAudio (audioId: number) {
+    const newAudios = audios.filter((audio) => {
+      return audio.id !== audioId;
+    });
+
+    setAudios(newAudios)
+  }
+
   return (
     <>
       <ClassDetails
         classRow={classRow}
-        userId={user.id}
+        currentUserId={currentUser.id}
         addStudent={addStudent}
         removeStudent={removeStudent}
         deleteClass={deleteClass}
       />
-      <AudioForm classId={relatedClass.id} addAudio={addAudio}/>
-      <CreateMessageForm classId={relatedClass.id} addMessage={addMessage} /> 
-      <AudioRecorder classId={relatedClass.id} addAudio={addAudio}/>
-      <MessageList messages={messages} audios={audios} />
+      <AudioForm classId={relatedClass.id} addAudio={addAudio} />
+
+      <CreateMessageForm classId={relatedClass.id} addMessage={addMessage} />
+      <AudioRecorder classId={relatedClass.id} addAudio={addAudio} />
+      <MessageList messages={messages} audios={audios} deleteAudio={deleteAudio} currentUser={currentUser}/>
     </>
   );
 };

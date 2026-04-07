@@ -1,36 +1,36 @@
 import db from "@/db";
 import { eq } from "drizzle-orm";
-import { classesTable } from "@/schema";
+import { audiosTable, classesTable } from "@/schema";
 import { NextResponse } from "next/server";
 import authenticate from "@/utils/authenticate";
 
-export async function DeleteAudio(
+export async function DELETE(
   request: Request,
-  context: { params: Promise<{ classId: string }> },
+  context: { params: Promise<{ audioId: string }> },
 ) {
   const user = await authenticate();
 
   const params = await context.params;
-  const classId = Number(params.classId);
-  const classCondition = eq(classesTable.id, classId);
-  const result = await db.query.classesTable.findFirst({
-    where: classCondition,
+  const audioId = Number(params.audioId);
+  const audioCondition = eq(audiosTable.id, audioId);
+  const result = await db.query.audiosTable.findFirst({
+    where: audioCondition,
   });
   if (!result) {
     return NextResponse.json(
-      { ok: false, message: "Class not found" },
+      { ok: false, message: "Audio not found" },
       { status: 404 },
     );
   }
 
-  if (result.teacherUserId !== user.id) {
+  if (result.userId !== user.id) {
     return NextResponse.json(
       { ok: false, message: "Unathorized" },
       { status: 403 },
     );
   }
 
-  await db.delete(classesTable).where(classCondition);
+  await db.delete(audiosTable).where(audioCondition);
 
   return NextResponse.json({ ok: true });
 }

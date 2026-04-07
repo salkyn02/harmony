@@ -4,17 +4,17 @@ import ClassDetails from "./ClassDetails";
 
 export const ClassList: FC<{
   classes: RelatedClass[];
-  userId: number;
+  currentUserId: number;
   addStudent: (classId: number, student: Student) => void;
   removeStudent: (classId: number, studentId: number) => void;
   deleteClass: (classId: number) => void;
-}> = ({ classes, userId, addStudent, removeStudent, deleteClass }) => {
+}> = ({ classes, currentUserId, addStudent, removeStudent, deleteClass }) => {
   const classItems = classes.map((classRow) => {
     return (
       <ClassDetails
         key={classRow.id}
         classRow={classRow}
-        userId={userId}
+        currentUserId={currentUserId}
         addStudent={addStudent}
         removeStudent={removeStudent}
         deleteClass={deleteClass}

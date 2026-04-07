@@ -4,8 +4,7 @@ import { HomeController } from "@/components/HomeController";
 import authenticateRedirect from "@/utils/authenticateRedirect";
 
 export default async function HomePage() {
-
-  const user = await authenticateRedirect();
+  const currentUser = await authenticateRedirect();
 
   const relatedClasses = await db.query.classesTable.findMany({
     with: {
@@ -19,9 +18,13 @@ export default async function HomePage() {
   });
   return (
     <div>
-      <Profile user={user} />
+      <Profile user={currentUser} />
 
-      <HomeController user={user} userId={user.id} classes={relatedClasses} />
+      <HomeController
+        user={currentUser}
+        currentUserId={currentUser.id}
+        classes={relatedClasses}
+      />
     </div>
   );
 }

@@ -40,8 +40,8 @@ export default async function ClassPage({ params }: ClassPageProps) {
       user: true,
     },
   });
-    const audioCondition = eq(audiosTable.classId, classRow.id);
-   const audios = await db.query.audiosTable.findMany({
+  const audioCondition = eq(audiosTable.classId, classRow.id);
+  const audios = await db.query.audiosTable.findMany({
     where: audioCondition,
     with: {
       user: true,
@@ -50,7 +50,7 @@ export default async function ClassPage({ params }: ClassPageProps) {
   return (
     <ClassPageContent
       relatedClass={classRow}
-      user={user}
+      currentUser={user}
       messageRows={messages}
       audioRows={audios}
     />

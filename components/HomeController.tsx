@@ -5,12 +5,11 @@ import { FC, useState } from "react";
 import { ClassList } from "./ClassList";
 import { CreateClassBtn } from "./CreateClassBtn";
 
-
 export const HomeController: FC<{
   classes: RelatedClass[];
-  userId: number;
+  currentUserId: number;
   user: User;
-}> = ({ classes, userId, user }) => {
+}> = ({ classes, currentUserId: currentUserId, user }) => {
   const [relatedClasses, setRelatedClasses] = useState(classes);
 
   function addStudent(classId: number, student: Student) {
@@ -65,24 +64,25 @@ export const HomeController: FC<{
 
   return (
     <>
-   
-    <audio src="https://res.cloudinary.com/dozrfojo0/video/upload/v1773699757/test.mp3" controls/>
+      <audio
+        src="https://res.cloudinary.com/dozrfojo0/video/upload/v1773699757/test.mp3"
+        controls
+      />
       <h3>
         Class count: {relatedClasses.length}{" "}
         <CreateClassBtn
-          userId={userId}
+          userId={currentUserId}
           classes={relatedClasses}
           addClass={addClass}
         />
       </h3>
       <ClassList
         classes={relatedClasses}
-        userId={userId}
+        currentUserId={currentUserId}
         addStudent={addStudent}
         removeStudent={removeStudent}
         deleteClass={deleteClass}
       />
-
     </>
   );
 };

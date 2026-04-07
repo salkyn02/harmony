@@ -5,7 +5,7 @@ import { DeleteClassBtn } from "./DeleteClassBtn";
 
 interface ClassDetailsProps {
   classRow: RelatedClass;
-  userId: number;
+  currentUserId: number;
   addStudent: (classId: number, student: Student) => void;
   removeStudent: (classId: number, studentId: number) => void;
   deleteClass: (classId: number) => void;
@@ -13,7 +13,7 @@ interface ClassDetailsProps {
 
 export default function ClassDetails({
   classRow,
-  userId,
+  currentUserId,
   addStudent,
   removeStudent,
   deleteClass,
@@ -23,10 +23,10 @@ export default function ClassDetails({
   });
 
   const isStudentInClass = classRow.students.some((student) => {
-    return student.userId === userId;
+    return student.userId === currentUserId;
   });
 
-  const isTeacher = classRow.teacherUserId === userId;
+  const isTeacher = classRow.teacherUserId === currentUserId;
 
   const canOpenClass = isStudentInClass || isTeacher;
 
@@ -42,7 +42,7 @@ export default function ClassDetails({
         <JoinClassBtn
           classId={classRow.id}
           students={classRow.students}
-          userId={userId}
+          userId={currentUserId}
           addStudent={addStudent}
           removeStudent={removeStudent}
           teacherUserId={classRow.teacherUserId}
@@ -50,7 +50,7 @@ export default function ClassDetails({
         <DeleteClassBtn
           classId={classRow.id}
           teacherUserId={classRow.teacherUserId}
-          currentUserId={userId}
+          currentUserId={currentUserId}
           deleteClass={deleteClass}
         />
       </h3>
