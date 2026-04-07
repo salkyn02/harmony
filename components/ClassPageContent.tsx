@@ -90,6 +90,14 @@ export const ClassPageContent: FC<{
     setAudios(newAudios)
   }
 
+  function deleteMessage (messageId: number) {
+    const newMessage = messages.filter((message) => {
+      return message.id !== messageId;
+    });
+
+    setMessages(newMessage)
+  }
+
   return (
     <>
       <ClassDetails
@@ -103,7 +111,7 @@ export const ClassPageContent: FC<{
 
       <CreateMessageForm classId={relatedClass.id} addMessage={addMessage} />
       <AudioRecorder classId={relatedClass.id} addAudio={addAudio} />
-      <MessageList messages={messages} audios={audios} deleteAudio={deleteAudio} currentUser={currentUser}/>
+      <MessageList messages={messages} audios={audios} deleteAudio={deleteAudio} deleteMessage={deleteMessage} currentUser={currentUser}/>
     </>
   );
 };
