@@ -2,6 +2,8 @@
 
 import { RelatedStudent, Student } from "@/types";
 import { FC, useState } from "react";
+import { Button } from "@/components/ui/button";
+
 
 export const JoinClassBtn: FC<{
   classId: number;
@@ -29,7 +31,7 @@ export const JoinClassBtn: FC<{
   
   if (student) {
     return (
-      <button
+      <Button
         onClick={async () => {
           setLoading(true);
           const body = JSON.stringify({ classId });
@@ -48,11 +50,11 @@ export const JoinClassBtn: FC<{
         disabled={loading}
       >
         Leave class
-      </button>
+      </Button>
     );
   }
   return (
-    <button
+    <Button
       onClick={async () => {
         setLoading(true);
         const body = JSON.stringify({ classId });
@@ -71,6 +73,6 @@ export const JoinClassBtn: FC<{
       disabled={loading}
     >
       Join class
-    </button>
+    </Button>
   );
 };

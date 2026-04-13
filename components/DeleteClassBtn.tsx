@@ -2,6 +2,8 @@
 
 
 import { FC, useState } from "react";
+import { Button } from "@/components/ui/button";
+
 
 export const DeleteClassBtn: FC<{
   classId: number;
@@ -15,7 +17,7 @@ export const DeleteClassBtn: FC<{
     return <></>;
   }
   return (
-    <button
+    <Button
       onClick={async () => {
         setLoading(true);
         const response = await fetch(`/api/delete-class/${classId}`, {
@@ -33,6 +35,6 @@ export const DeleteClassBtn: FC<{
       disabled={loading}
     >
       Delete class
-    </button>
+    </Button>
   );
 };

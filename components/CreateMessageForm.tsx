@@ -2,6 +2,9 @@
 
 import { RelatedMessage } from "@/types";
 import { FC, useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "./ui/input";
+
 
 export const CreateMessageForm: FC<{
   classId: number;
@@ -33,14 +36,14 @@ export const CreateMessageForm: FC<{
           setContent('')
         }}
       >
-        <input
+        <Input
           value={content}
           onChange={(event) => {
             setContent(event.target.value);
           }}
         />
 
-        <button disabled={loading}>Submit</button>
+        <Button disabled={loading}>Submit</Button>
       </form>
     </div>
   );

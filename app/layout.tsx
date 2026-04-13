@@ -1,10 +1,9 @@
-import "./globals.css"
+import "./globals.css";
 import Link from "next/link";
 import { Geist } from "next/font/google";
 import { cn } from "@/lib/utils";
 
-const geist = Geist({subsets:['latin'],variable:'--font-sans'});
-
+const geist = Geist({ subsets: ["latin"], variable: "--font-sans" });
 
 export default function RootLayout({
   children,
@@ -14,11 +13,11 @@ export default function RootLayout({
   return (
     <html lang="en" className={cn("font-sans", geist.variable)}>
       <body>
-        <Link href={"/"}>
-          <h1>Harmony</h1>
-        </Link>
+        <div className="max-w-xl mx-auto pt-5">
+          
 
-        {children}
+          {children}
+        </div>
       </body>
     </html>
   );

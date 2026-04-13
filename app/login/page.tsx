@@ -2,6 +2,9 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { Button, buttonVariants } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { CustomLink } from "@/components/CustomLink";
 
 export default function LoginPage() {
   const [name, setName] = useState("");
@@ -11,8 +14,6 @@ export default function LoginPage() {
 
   return (
     <div>
-      <h1 className="text-3xl font-bold underline">Hello world!</h1>
-
       <h2>Login</h2>
       <form
         onSubmit={async (event) => {
@@ -25,23 +26,21 @@ export default function LoginPage() {
           router.push("/");
         }}
       >
-        <input
+        <Input
           value={name}
           onChange={(event) => {
             setName(event.target.value);
           }}
         />
-        <input
+        <Input
           value={password}
           onChange={(event) => {
             setPassword(event.target.value);
           }}
         />
-        <button disabled={loading}>Submit</button>
+        <Button disabled={loading}>Submit</Button>
       </form>
-      <Link href={"/register"}>
-        <button>Register</button>
-      </Link>
+      <CustomLink href="/register">Register</CustomLink>
     </div>
   );
 }

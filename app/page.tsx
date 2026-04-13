@@ -1,7 +1,7 @@
 import db from "@/db";
-import { Profile } from "../components/Profile";
 import { HomeController } from "@/components/HomeController";
 import authenticateRedirect from "@/utils/authenticateRedirect";
+import { Navbar } from "@/components/Navbar";
 
 export default async function HomePage() {
   const currentUser = await authenticateRedirect();
@@ -18,7 +18,7 @@ export default async function HomePage() {
   });
   return (
     <div>
-      <Profile user={currentUser} />
+      <Navbar user={currentUser} />
 
       <HomeController
         user={currentUser}

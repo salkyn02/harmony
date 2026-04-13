@@ -2,6 +2,7 @@
 
 import { RelatedAudio } from "@/types";
 import { FC, useState, useRef } from "react";
+import { Button } from "./ui/button";
 
 export const AudioForm: FC<{
   classId: number;
@@ -31,7 +32,7 @@ export const AudioForm: FC<{
       }}
     >
       <input type="file" name="file" ref={inputRef} accept="audio/*" />
-      <button disabled={loading}>Submit</button>
+      <Button disabled={loading}>Submit</Button>
     </form>
   );
 };

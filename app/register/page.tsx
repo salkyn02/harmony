@@ -2,6 +2,9 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import Link from "next/link";
+import { Input } from "@/components/ui/input";
+import { Button, buttonVariants } from "@/components/ui/button";
+import { CustomLink } from "@/components/CustomLink";
 
 const Register = () => {
   const [name, setName] = useState("");
@@ -23,23 +26,21 @@ const Register = () => {
           router.push("/login");
         }}
       >
-        <input
+        <Input
           value={name}
           onChange={(event) => {
             setName(event.target.value);
           }}
         />
-        <input
+        <Input
           value={password}
           onChange={(event) => {
             setPassword(event.target.value);
           }}
         />
-        <button disabled={loading}>Register</button>
+        <Button disabled={loading}>Register</Button>
       </form>
-      <Link href={"/login"}>
-        <button>Login</button>
-      </Link>
+      <CustomLink href="/login">Login </CustomLink>
     </div>
   );
 };

@@ -3,6 +3,8 @@
 
 import { User } from "@/types";
 import { FC, useState } from "react";
+import { Button } from "@/components/ui/button";
+
 
 export const DeleteMessageBtn: FC<{
   messageId: number;
@@ -17,7 +19,7 @@ export const DeleteMessageBtn: FC<{
   }
 
   return (
-    <button
+    <Button
       onClick={async () => {
         setLoading(true);
         const response = await fetch(`/api/delete-message/${messageId}`, {
@@ -35,6 +37,6 @@ export const DeleteMessageBtn: FC<{
       disabled={loading}
     >
       Delete message
-    </button>
+    </Button>
   );
 };

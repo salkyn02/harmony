@@ -4,6 +4,7 @@ import { RelatedAudio } from "@/types";
 import { FC, useState } from "react";
 import { useReactMediaRecorder } from "react-media-recorder";
 import { AudioPlayer } from "./AudioPlayer";
+import { Button } from "./ui/button";
 
 const AudioRecorder: FC<{
   classId: number;
@@ -11,12 +12,12 @@ const AudioRecorder: FC<{
 }> = ({ classId, addAudio }) => {
   const [loading, setLoading] = useState(false);
   const [blob, setBlob] = useState<Blob>();
-  const [submitted, setSubmitted] = useState(false)
+  const [submitted, setSubmitted] = useState(false);
   const recorder = useReactMediaRecorder({
     audio: true,
     onStop: async (url, blob) => {
       setBlob(blob);
-      setSubmitted(false)
+      setSubmitted(false);
     },
   });
 
@@ -24,21 +25,23 @@ const AudioRecorder: FC<{
     <div>
       <p>{recorder.status}</p>
       {recorder.status !== "recording" && (
-        <button onClick={recorder.startRecording} disabled={loading}>
+        <Button onClick={recorder.startRecording} disabled={loading}>
           Start Recording
-        </button>
+        </Button>
       )}
 
       {recorder.status === "recording" && (
-        <button onClick={recorder.stopRecording} disabled={loading}>
+        <Button onClick={recorder.stopRecording} disabled={loading}>
           Stop Recording
-        </button>
+        </Button>
       )}
 
-      {recorder.mediaBlobUrl && !submitted && <AudioPlayer src={recorder.mediaBlobUrl} />}
+      {recorder.mediaBlobUrl && !submitted && (
+        <AudioPlayer src={recorder.mediaBlobUrl} />
+      )}
 
       {blob && !submitted && (
-        <button
+        <Button
           onClick={async () => {
             if (!blob) {
               throw new Error("Missing blob");
@@ -55,14 +58,13 @@ const AudioRecorder: FC<{
             data.createdAt = new Date(data.createdAt);
             setLoading(false);
             addAudio(data);
-            setSubmitted(true)
+            setSubmitted(true);
           }}
           disabled={loading}
         >
           Submit
-        </button>
+        </Button>
       )}
-      
     </div>
   );
 };

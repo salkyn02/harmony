@@ -3,6 +3,7 @@
 
 import { User } from "@/types";
 import { FC, useState } from "react";
+import { Button } from "./ui/button";
 
 export const DeleteAudioBtn: FC<{
   audioId: number;
@@ -17,7 +18,7 @@ export const DeleteAudioBtn: FC<{
   }
 
   return (
-    <button
+    <Button
       onClick={async () => {
         setLoading(true);
         const response = await fetch(`/api/delete-audio/${audioId}`, {
@@ -35,6 +36,6 @@ export const DeleteAudioBtn: FC<{
       disabled={loading}
     >
       Delete audio
-    </button>
+    </Button>
   );
 };

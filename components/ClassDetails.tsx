@@ -2,6 +2,16 @@ import Link from "next/link";
 import { JoinClassBtn } from "./JoinClassBtn";
 import { RelatedClass, Student } from "@/types";
 import { DeleteClassBtn } from "./DeleteClassBtn";
+import { buttonVariants } from "./ui/button";
+import {
+  Item,
+  ItemActions,
+  ItemContent,
+  ItemDescription,
+  ItemTitle,
+} from "./ui/item";
+import { Badge } from "./ui/badge";
+import { CustomLink } from "./CustomLink";
 
 interface ClassDetailsProps {
   classRow: RelatedClass;
@@ -19,7 +29,7 @@ export default function ClassDetails({
   deleteClass,
 }: ClassDetailsProps) {
   const studentsItems = classRow.students.map((student) => {
-    return <li key={student.id}>{student.user.name}</li>;
+    return <Badge key={student.id}>{student.user.name}</Badge>;
   });
 
   const isStudentInClass = classRow.students.some((student) => {
@@ -31,14 +41,20 @@ export default function ClassDetails({
   const canOpenClass = isStudentInClass || isTeacher;
 
   return (
-    <div>
-      <h3>  
-        Teacher:{" "}
-        {canOpenClass ? (
-          <Link href={`/class/${classRow.id}`}>{classRow.teacher.name}</Link>
-        ) : (
-          classRow.teacher.name
-        )}
+    <Item variant="outline">
+      <ItemContent>
+        <ItemTitle>
+          {canOpenClass ? (
+            <CustomLink href={`/class/${classRow.id}`}>
+              Teacher: {classRow.teacher.name}
+            </CustomLink>
+          ) : (
+            <>Teacher: {classRow.teacher.name}</>
+          )}
+        </ItemTitle>
+        <ItemDescription>Students: {studentsItems}</ItemDescription>
+      </ItemContent>
+      <ItemActions>
         <JoinClassBtn
           classId={classRow.id}
           students={classRow.students}
@@ -53,8 +69,7 @@ export default function ClassDetails({
           currentUserId={currentUserId}
           deleteClass={deleteClass}
         />
-      </h3>
-      <ol>{studentsItems}</ol>
-    </div>
+      </ItemActions>
+    </Item>
   );
 }

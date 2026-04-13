@@ -2,7 +2,7 @@ import { User } from "@/types";
 import { FC } from "react";
 import { LogOutBtn } from "./LogOutBtn";
 
-export const Profile: FC<{ user?: User }> = async ({ user }) => {
+export const Profile: FC<{ user?: User }> =  ({ user }) => {
   if (!user) {
     return <h2>Invalid token</h2>;
   }

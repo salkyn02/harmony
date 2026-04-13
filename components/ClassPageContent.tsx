@@ -16,6 +16,7 @@ import ClassDetails from "./ClassDetails";
 import { CreateMessageForm } from "./CreateMessageForm";
 import { MessageList } from "./MessageList";
 import { AudioForm } from "./AudioForm";
+import { Navbar } from "./Navbar";
 
 const AudioRecorder = dynamic(
   () => {
@@ -100,6 +101,7 @@ export const ClassPageContent: FC<{
 
   return (
     <>
+    <Navbar user={currentUser}/>
       <ClassDetails
         classRow={classRow}
         currentUserId={currentUser.id}
