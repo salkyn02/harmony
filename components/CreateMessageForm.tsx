@@ -5,7 +5,6 @@ import { FC, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "./ui/input";
 
-
 export const CreateMessageForm: FC<{
   classId: number;
   addMessage: (newMessage: RelatedMessage) => void;
@@ -14,8 +13,7 @@ export const CreateMessageForm: FC<{
   const [loading, setLoading] = useState(false);
 
   return (
-    <div>
-      <h2>Create Message</h2>
+    <div className="p-4">
       <form
         onSubmit={async (event) => {
           setLoading(true);
@@ -33,10 +31,12 @@ export const CreateMessageForm: FC<{
           }
 
           setLoading(false);
-          setContent('')
+          setContent("");
         }}
+        className="flex justify-between gap-2"
       >
         <Input
+          placeholder="Type message..."
           value={content}
           onChange={(event) => {
             setContent(event.target.value);

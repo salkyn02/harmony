@@ -1,8 +1,6 @@
-import Link from "next/link";
 import { JoinClassBtn } from "./JoinClassBtn";
 import { RelatedClass, Student } from "@/types";
 import { DeleteClassBtn } from "./DeleteClassBtn";
-import { buttonVariants } from "./ui/button";
 import {
   Item,
   ItemActions,
@@ -28,9 +26,12 @@ export default function ClassDetails({
   removeStudent,
   deleteClass,
 }: ClassDetailsProps) {
-  const studentsItems = classRow.students.map((student) => {
-    return <Badge key={student.id}>{student.user.name}</Badge>;
-  });
+
+  // const studentsItems = classRow.students.map((student) => {
+  //   return <Badge key={student.id}>{student.user.name}</Badge>;
+  // });
+
+  const studentsCount = classRow.students.length;
 
   const isStudentInClass = classRow.students.some((student) => {
     return student.userId === currentUserId;
@@ -41,18 +42,27 @@ export default function ClassDetails({
   const canOpenClass = isStudentInClass || isTeacher;
 
   return (
-    <Item variant="outline">
-      <ItemContent>
-        <ItemTitle>
+    <Item variant="outline" className="flex items-start justify-between gap-4">
+      <ItemContent className="flex flex-col items-start gap-2">
+        <ItemTitle className="w-full">
           {canOpenClass ? (
-            <CustomLink href={`/class/${classRow.id}`}>
+            <CustomLink
+              href={`/class/${classRow.id}`}
+              className="block text-left px-0 h-auto"
+            >
               Teacher: {classRow.teacher.name}
             </CustomLink>
           ) : (
-            <>Teacher: {classRow.teacher.name}</>
+            <span className="block text-left">
+              Teacher: {classRow.teacher.name}
+            </span>
           )}
         </ItemTitle>
-        <ItemDescription>Students: {studentsItems}</ItemDescription>
+        <ItemDescription className="w-full flex flex-wrap gap-2">
+          {/* <span className="text-muted-foreground">Students:</span>
+          {studentsItems} */}
+          Students: <Badge>{studentsCount}</Badge>
+        </ItemDescription>
       </ItemContent>
       <ItemActions>
         <JoinClassBtn

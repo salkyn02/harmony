@@ -4,14 +4,15 @@
 import { User } from "@/types";
 import { FC, useState } from "react";
 import { Button } from "@/components/ui/button";
+import { Trash } from "lucide-react";
 
 
 export const DeleteMessageBtn: FC<{
   messageId: number;
   currentUser: User;
   userId: number;
-  deleteMessage: (audioId: number) => void;
-}> = ({ messageId: messageId, currentUser,userId, deleteMessage: deleteMessage }) => {
+  deleteMessage: (messageId: number) => void;
+}> = ({ messageId, currentUser,userId, deleteMessage }) => {
   const [loading, setLoading] = useState(false);
  
   if (currentUser.id !== userId) {
@@ -36,7 +37,7 @@ export const DeleteMessageBtn: FC<{
       }}
       disabled={loading}
     >
-      Delete message
+      <Trash />
     </Button>
   );
 };

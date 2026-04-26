@@ -17,7 +17,7 @@ export default async function HomePage() {
     },
   });
   return (
-    <div>
+    <div className="flex flex-col gap-6">
       <Navbar user={currentUser} />
 
       <HomeController

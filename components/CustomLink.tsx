@@ -1,12 +1,17 @@
-import  Link  from "next/link"
-import { buttonVariants } from "./ui/button"
+import Link from "next/link";
+import { buttonVariants } from "./ui/button";
 
-import { FC, ReactNode } from "react"
+import { FC, ReactNode } from "react";
+import { cn } from "@/lib/utils";
 
-export const CustomLink:  FC<{ href: string, children: ReactNode }> = ({ href, children }) => {
+export const CustomLink: FC<{
+  href: string;
+  children: ReactNode;
+  className?: string;
+}> = ({ href, children, className }) => {
   return (
-      <Link href={href} className={buttonVariants({ variant: "link" })}>
-        {children}
-      </Link>
-  )
-}
+    <Link href={href} className={cn(buttonVariants({ variant: "link" }), className)}>
+      {children}
+    </Link>
+  );
+};

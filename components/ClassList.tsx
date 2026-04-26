@@ -22,5 +22,5 @@ export const ClassList: FC<{
     );
   });
 
-  return <div>{classItems}</div>;
+  return <div className="flex flex-col justify-between gap-3">{classItems}</div>;
 };

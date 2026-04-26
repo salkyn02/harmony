@@ -1,5 +1,4 @@
 import "./globals.css";
-import Link from "next/link";
 import { Geist } from "next/font/google";
 import { cn } from "@/lib/utils";
 
@@ -14,8 +13,6 @@ export default function RootLayout({
     <html lang="en" className={cn("font-sans", geist.variable)}>
       <body>
         <div className="max-w-xl mx-auto pt-5">
-          
-
           {children}
         </div>
       </body>

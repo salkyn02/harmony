@@ -1,24 +1,24 @@
 import db from "@/db";
 import { eq } from "drizzle-orm";
-import { audiosTable } from "@/schema";
+import { filesTable } from "@/schema";
 import { NextResponse } from "next/server";
 import authenticate from "@/utils/authenticate";
 
 export async function DELETE(
   request: Request,
-  context: { params: Promise<{ audioId: string }> },
+  context: { params: Promise<{ fileId: string }> },
 ) {
   const user = await authenticate();
 
   const params = await context.params;
-  const audioId = Number(params.audioId);
-  const audioCondition = eq(audiosTable.id, audioId);
-  const result = await db.query.audiosTable.findFirst({
-    where: audioCondition,
+  const fileId = Number(params.fileId);
+  const fileCondition = eq(filesTable.id, fileId);
+  const result = await db.query.filesTable.findFirst({
+    where: fileCondition,
   });
   if (!result) {
     return NextResponse.json(
-      { ok: false, message: "Audio not found" },
+      { ok: false, message: "File not found" },
       { status: 404 },
     );
   }
@@ -30,7 +30,7 @@ export async function DELETE(
     );
   }
 
-  await db.delete(audiosTable).where(audioCondition);
+  await db.delete(filesTable).where(fileCondition);
 
   return NextResponse.json({ ok: true });
 }

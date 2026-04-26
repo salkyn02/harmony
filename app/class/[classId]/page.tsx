@@ -1,6 +1,6 @@
 import { ClassPageContent } from "@/components/ClassPageContent";
 import db from "@/db";
-import { audiosTable, classesTable, messagesTable } from "@/schema";
+import { filesTable, classesTable, messagesTable } from "@/schema";
 import authenticateRedirect from "@/utils/authenticateRedirect";
 import isClassMember from "@/utils/isClassMember";
 import { eq } from "drizzle-orm";
@@ -40,9 +40,9 @@ export default async function ClassPage({ params }: ClassPageProps) {
       user: true,
     },
   });
-  const audioCondition = eq(audiosTable.classId, classRow.id);
-  const audios = await db.query.audiosTable.findMany({
-    where: audioCondition,
+  const fileCondition = eq(filesTable.classId, classRow.id);
+  const files = await db.query.filesTable.findMany({
+    where: fileCondition,
     with: {
       user: true,
     },
@@ -52,7 +52,7 @@ export default async function ClassPage({ params }: ClassPageProps) {
       relatedClass={classRow}
       currentUser={user}
       messageRows={messages}
-      audioRows={audios}
+      fileRows={files}
     />
   );
 }

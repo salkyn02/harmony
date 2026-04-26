@@ -4,7 +4,7 @@ import { classesTable } from "@/schema";
 import { NextResponse } from "next/server";
 import authenticate from "@/utils/authenticate";
 
-export async function DeleteAudio(
+export async function DELETE(
   request: Request,
   context: { params: Promise<{ classId: string }> },
 ) {

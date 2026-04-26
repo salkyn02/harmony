@@ -38,7 +38,7 @@ export const messagesTable = pgTable("messages", {
   createdAt: timestamp().defaultNow().notNull(),
 });
 
-export const audiosTable = pgTable("audios", {
+export const filesTable = pgTable("file", {
   id: integer().primaryKey().generatedAlwaysAsIdentity(),
   userId: integer()
     .notNull()
@@ -54,7 +54,7 @@ export const usersRelations = relations(usersTable, ({ many }) => ({
   classes: many(classesTable),
   students: many(studentsTable),
   messages: many(messagesTable),
-  audios: many(audiosTable),
+  files: many(filesTable),
 }));
 
 export const classesRelations = relations(classesTable, ({ one, many }) => ({
@@ -64,7 +64,7 @@ export const classesRelations = relations(classesTable, ({ one, many }) => ({
   }),
   students: many(studentsTable),
   messages: many(messagesTable),
-  audios: many(audiosTable),
+  files: many(filesTable),
 }));
 
 export const studentsRelations = relations(studentsTable, ({ one }) => ({
@@ -89,13 +89,13 @@ export const messagesRelations = relations(messagesTable, ({ one }) => ({
   }),
 }));
 
-export const audiosRelations = relations(audiosTable, ({one})=> ({
+export const filesRelations = relations(filesTable, ({ one }) => ({
   user: one(usersTable, {
-    fields: [audiosTable.userId],
+    fields: [filesTable.userId],
     references: [usersTable.id],
   }),
   class: one(classesTable, {
-    fields: [audiosTable.classId],
+    fields: [filesTable.classId],
     references: [classesTable.id],
   }),
-}))
+}));

@@ -1,6 +1,5 @@
 import db from "@/db";
-import { audiosTable } from "@/schema";
-import { RelatedAudio } from "@/types";
+import { filesTable } from "@/schema";
 import authenticate from "@/utils/authenticate";
 import { v2 } from "cloudinary";
 import { NextResponse } from "next/server";
@@ -40,12 +39,12 @@ export async function POST(request: Request) {
   const dataURI = `data:${file.type};base64,${base64}`;
 
   const result = await v2.uploader.upload(dataURI, {
-    resource_type: "video",
+    resource_type: "auto",
   });
-  const [audio] = await db
-    .insert(audiosTable)
+  const [insertedFile] = await db
+    .insert(filesTable)
     .values({ userId: user.id, url: result.url, classId: Number(classId) })
     .returning();
 
-  return NextResponse.json(audio);
+  return NextResponse.json(insertedFile);
 }

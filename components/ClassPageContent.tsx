@@ -8,14 +8,14 @@ import {
   RelatedStudent,
   Student,
   User,
-  Audio,
-  RelatedAudio,
+  File,
+  RelatedFile,
 } from "@/types";
 import { FC, useState } from "react";
 import ClassDetails from "./ClassDetails";
 import { CreateMessageForm } from "./CreateMessageForm";
 import { MessageList } from "./MessageList";
-import { AudioForm } from "./AudioForm";
+import { FileInput } from "./FileInput";
 import { Navbar } from "./Navbar";
 
 const AudioRecorder = dynamic(
@@ -29,11 +29,11 @@ export const ClassPageContent: FC<{
   relatedClass: RelatedClass;
   currentUser: User;
   messageRows: RelatedMessage[];
-  audioRows: RelatedAudio[];
-}> = ({ relatedClass, currentUser, messageRows, audioRows }) => {
+  fileRows: RelatedFile[];
+}> = ({ relatedClass, currentUser, messageRows, fileRows }) => {
   const [classRow, setClassRow] = useState(relatedClass);
   const [messages, setMessages] = useState(messageRows);
-  const [audios, setAudios] = useState(audioRows);
+  const [files, setFiles] = useState(fileRows);
 
   const router = useRouter();
 
@@ -42,13 +42,13 @@ export const ClassPageContent: FC<{
     setMessages(newMessages);
   }
 
-  function addAudio(newAudio: Audio) {
-    const relatedAudio = {
-      ...newAudio,
+  function addFile(newFile: File) {
+    const relatedFile = {
+      ...newFile,
       user: currentUser,
     };
-    const newAudios = [...audios, relatedAudio];
-    setAudios(newAudios);
+    const newFiles = [...files, relatedFile];
+    setFiles(newFiles);
   }
 
   function addStudent(classId: number, student: Student) {
@@ -83,25 +83,25 @@ export const ClassPageContent: FC<{
     router.push("/");
   }
 
-  function deleteAudio (audioId: number) {
-    const newAudios = audios.filter((audio) => {
-      return audio.id !== audioId;
+  function deleteFile(fileId: number) {
+    const newFiles = files.filter((file) => {
+      return file.id !== fileId;
     });
 
-    setAudios(newAudios)
+    setFiles(newFiles);
   }
 
-  function deleteMessage (messageId: number) {
+  function deleteMessage(messageId: number) {
     const newMessage = messages.filter((message) => {
       return message.id !== messageId;
     });
 
-    setMessages(newMessage)
+    setMessages(newMessage);
   }
 
   return (
-    <>
-    <Navbar user={currentUser}/>
+    <div className="flex flex-col gap-3">
+      <Navbar user={currentUser} />
       <ClassDetails
         classRow={classRow}
         currentUserId={currentUser.id}
@@ -109,11 +109,25 @@ export const ClassPageContent: FC<{
         removeStudent={removeStudent}
         deleteClass={deleteClass}
       />
-      <AudioForm classId={relatedClass.id} addAudio={addAudio} />
+      <MessageList
+        messages={messages}
+        files={files}
+        deleteFile={deleteFile}
+        deleteMessage={deleteMessage}
+        currentUser={currentUser}
+      />
 
       <CreateMessageForm classId={relatedClass.id} addMessage={addMessage} />
-      <AudioRecorder classId={relatedClass.id} addAudio={addAudio} />
-      <MessageList messages={messages} audios={audios} deleteAudio={deleteAudio} deleteMessage={deleteMessage} currentUser={currentUser}/>
-    </>
+
+      <div className="flex w-full gap-2 items-stretch">
+        <div className="flex-1 p-2 border rounded-md">
+          <AudioRecorder classId={relatedClass.id} addFile={addFile} />
+        </div>
+
+        <div className="flex-1 p-2 border rounded-md flex items-center">
+          <FileInput classId={relatedClass.id} addFile={addFile} />
+        </div>
+      </div>
+    </div>
   );
 };

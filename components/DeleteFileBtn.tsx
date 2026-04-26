@@ -1,18 +1,18 @@
 "use client";
 
-
 import { User } from "@/types";
 import { FC, useState } from "react";
 import { Button } from "./ui/button";
+import { Trash } from "lucide-react";
 
-export const DeleteAudioBtn: FC<{
-  audioId: number;
+export const DeleteFileBtn: FC<{
+  fileId: number;
   currentUser: User;
   userId: number;
-  deleteAudio: (audioId: number) => void;
-}> = ({ audioId, currentUser,userId, deleteAudio }) => {
+  deleteFile: (fileId: number) => void;
+}> = ({ fileId, currentUser, userId, deleteFile }) => {
   const [loading, setLoading] = useState(false);
- 
+
   if (currentUser.id !== userId) {
     return <></>;
   }
@@ -21,13 +21,12 @@ export const DeleteAudioBtn: FC<{
     <Button
       onClick={async () => {
         setLoading(true);
-        const response = await fetch(`/api/delete-audio/${audioId}`, {
+        const response = await fetch(`/api/delete-file/${fileId}`, {
           method: "DELETE",
         });
         const data = await response.json();
         if (response.ok) {
-          deleteAudio(audioId);
-         
+          deleteFile(fileId);
         } else {
           alert(data.message);
         }
@@ -35,7 +34,7 @@ export const DeleteAudioBtn: FC<{
       }}
       disabled={loading}
     >
-      Delete audio
+      <Trash />
     </Button>
   );
 };

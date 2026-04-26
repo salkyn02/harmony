@@ -2,6 +2,7 @@
 
 import { RelatedClass } from "@/types";
 import { FC, useState } from "react";
+import { Button } from "./ui/button";
 
 export const CreateClassBtn: FC<{
   userId: number;
@@ -17,7 +18,7 @@ export const CreateClassBtn: FC<{
   }
 
   return (
-    <button
+    <Button
       onClick={async () => {
         setLoading(true);
         const response = await fetch("/api/create-class", { method: "POST" });
@@ -33,6 +34,6 @@ export const CreateClassBtn: FC<{
       disabled={loading}
     >
       Create class
-    </button>
+    </Button>
   );
 };

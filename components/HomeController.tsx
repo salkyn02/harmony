@@ -63,15 +63,18 @@ export const HomeController: FC<{
   }
 
   return (
-    <>
-      <h3>
-        Class count: {relatedClasses.length}{" "}
+    <div className="flex flex-col justify-between gap-4">
+      <div className="flex justify-between p-1">
+        <h3 className="font-semibold pl-1">
+          Class count: {relatedClasses.length}{" "}
+        </h3>
         <CreateClassBtn
           userId={currentUserId}
           classes={relatedClasses}
           addClass={addClass}
         />
-      </h3>
+      </div>
+
       <ClassList
         classes={relatedClasses}
         currentUserId={currentUserId}
@@ -79,6 +82,6 @@ export const HomeController: FC<{
         removeStudent={removeStudent}
         deleteClass={deleteClass}
       />
-    </>
+    </div>
   );
 };

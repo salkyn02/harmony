@@ -5,9 +5,11 @@ import { CustomLink } from "./CustomLink";
 
 export const Navbar: FC<{ user?: User }> = ({ user }) => {
   return (
-    <div className="flex justify-between items-center">
-      <CustomLink href="/">Harmony</CustomLink>
-      <Profile user={user}/>
+    <div className="w-full border-b bg-background">
+      <div className="flex justify-between items-center max-w-6xl mx-auto h-16">
+        <CustomLink href="/" className="text-2xl font-bold">Harmony</CustomLink>
+        <Profile user={user} />
+      </div>
     </div>
   );
 };
