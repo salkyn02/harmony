@@ -12,9 +12,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={cn("font-sans", geist.variable)}>
       <body>
-        <div className="max-w-xl mx-auto pt-5">
-          {children}
-        </div>
+        <div className="max-w-xl mx-auto p-5">{children}</div>
       </body>
     </html>
   );

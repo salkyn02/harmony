@@ -55,7 +55,7 @@
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.145 0 0);
   --primary: oklch(59.413% 0.12975 303.557);
-  --primary-foreground: oklch(98.071% 0.01111 302.815);
+  --primary-foreground: oklch(91.916% 0.02249 302.782);
   --secondary: oklch(0.97 0 0);
   --secondary-foreground: oklch(0.205 0 0);
   --muted: oklch(0.94 0.02 280);
@@ -125,5 +125,9 @@
   }
   html {
     @apply font-sans;
+  }
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
   }
 }

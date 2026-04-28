@@ -13,6 +13,7 @@ export const LogOutBtn: FC<{ user?: User }> = ({ user }) => {
         document.cookie = "token=;max-age=0;";
         router.push("/login");
       }}
+      className="w-fit"
     >
       Log out
     </Button>

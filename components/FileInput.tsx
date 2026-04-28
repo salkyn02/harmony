@@ -50,6 +50,7 @@ export const FileInput: FC<{
         size="icon"
         disabled={loading}
         onClick={() => inputRef.current?.click()}
+        className="hover:bg-transparent hover:text-primary cursor-pointer"
       >
         <Paperclip className="w-8 h-8" /> Attach file
       </Button>

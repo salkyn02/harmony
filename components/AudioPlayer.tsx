@@ -8,7 +8,6 @@
 //   );
 // };
 
-
 import { FC, useRef, useState } from "react";
 import { Button } from "./ui/button";
 import { Play, Pause } from "lucide-react";
@@ -36,6 +35,7 @@ export const AudioPlayer: FC<{ src: string }> = ({ src }) => {
         size="icon"
         variant="ghost"
         onClick={toggle}
+        className="hover:bg-transparent hover:text-primary cursor-pointer"
       >
         {playing ? <Pause size={16} /> : <Play size={16} />}
       </Button>
@@ -47,9 +47,7 @@ export const AudioPlayer: FC<{ src: string }> = ({ src }) => {
         className="hidden"
       />
 
-      <span className="flex-1 text-xs text-muted-foreground">
-        Audio file
-      </span>
+      <span className="flex-1 text-xs text-muted-foreground">Audio file</span>
     </span>
   );
 };

@@ -38,6 +38,7 @@ const AudioRecorder: FC<{
           onClick={recorder.startRecording}
           disabled={loading}
           variant="ghost"
+          className="hover:bg-transparent hover:text-primary cursor-pointer"
         >
           <Mic />
           Start Recording
@@ -49,6 +50,7 @@ const AudioRecorder: FC<{
           onClick={recorder.stopRecording}
           disabled={loading}
           variant="ghost"
+          className="hover:bg-transparent hover:text-primary cursor-pointer"
         >
           <Square />
           Stop Recording
@@ -84,11 +86,17 @@ const AudioRecorder: FC<{
               setSubmitted(true);
             }}
             disabled={loading}
+            className="cursor-pointer"
           >
             Submit
           </Button>
 
-          <Button type="button" onClick={handleCancel} disabled={loading}>
+          <Button
+            type="button"
+            onClick={handleCancel}
+            disabled={loading}
+            className="cursor-pointer"
+          >
             Cancel
           </Button>
         </div>

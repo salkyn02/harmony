@@ -6,10 +6,12 @@ import {
   ItemActions,
   ItemContent,
   ItemDescription,
+  ItemMedia,
   ItemTitle,
 } from "./ui/item";
 import { Badge } from "./ui/badge";
 import { CustomLink } from "./CustomLink";
+import { Users } from "lucide-react";
 
 interface ClassDetailsProps {
   classRow: RelatedClass;
@@ -26,7 +28,6 @@ export default function ClassDetails({
   removeStudent,
   deleteClass,
 }: ClassDetailsProps) {
-
   // const studentsItems = classRow.students.map((student) => {
   //   return <Badge key={student.id}>{student.user.name}</Badge>;
   // });
@@ -43,6 +44,11 @@ export default function ClassDetails({
 
   return (
     <Item variant="outline" className="flex items-start justify-between gap-4">
+      <ItemMedia variant="icon">
+        <div className="rounded-full bg-primary-foreground p-6">
+          <Users className="text-primary" />
+        </div>
+      </ItemMedia>
       <ItemContent className="flex flex-col items-start gap-2">
         <ItemTitle className="w-full">
           {canOpenClass ? (
@@ -59,8 +65,6 @@ export default function ClassDetails({
           )}
         </ItemTitle>
         <ItemDescription className="w-full flex flex-wrap gap-2">
-          {/* <span className="text-muted-foreground">Students:</span>
-          {studentsItems} */}
           Students: <Badge>{studentsCount}</Badge>
         </ItemDescription>
       </ItemContent>

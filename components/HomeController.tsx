@@ -66,7 +66,7 @@ export const HomeController: FC<{
     <div className="flex flex-col justify-between gap-4">
       <div className="flex justify-between p-1">
         <h3 className="font-semibold pl-1">
-          Class count: {relatedClasses.length}{" "}
+          Class List ({relatedClasses.length})
         </h3>
         <CreateClassBtn
           userId={currentUserId}
