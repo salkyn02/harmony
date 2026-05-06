@@ -12,7 +12,10 @@ import { FC, useRef, useState } from "react";
 import { Button } from "./ui/button";
 import { Play, Pause } from "lucide-react";
 
-export const AudioPlayer: FC<{ src: string }> = ({ src }) => {
+export const AudioPlayer: FC<{ src: string; darkMode?: boolean }> = ({
+  src,
+  darkMode: darkMode,
+}) => {
   const audioRef = useRef<HTMLAudioElement>(null);
   const [playing, setPlaying] = useState(false);
 
@@ -47,7 +50,11 @@ export const AudioPlayer: FC<{ src: string }> = ({ src }) => {
         className="hidden"
       />
 
-      <span className="flex-1 text-xs text-muted-foreground">Audio file</span>
+      <span
+        className={`flex-1 text-xs ${darkMode ?  "text-white" :"text-muted-foreground"} `}
+      >
+        Audio file
+      </span>
     </span>
   );
 };

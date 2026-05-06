@@ -13,7 +13,7 @@ export const CreateMessageForm: FC<{
   const [loading, setLoading] = useState(false);
 
   return (
-    <div className="p-4">
+    <div className="p-4 w-full">
       <form
         onSubmit={async (event) => {
           setLoading(true);

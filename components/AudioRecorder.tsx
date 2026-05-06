@@ -10,7 +10,9 @@ import { Mic, Square } from "lucide-react";
 const AudioRecorder: FC<{
   classId: number;
   addFile: (newFile: RelatedFile) => void;
-}> = ({ classId, addFile }) => {
+  stopRecording: () => void;
+  startRecording: () => void;
+}> = ({ classId, addFile, stopRecording, startRecording }) => {
   const [loading, setLoading] = useState(false);
   const [blob, setBlob] = useState<Blob>();
   const [submitted, setSubmitted] = useState(false);
@@ -21,6 +23,7 @@ const AudioRecorder: FC<{
       setBlob(blob);
       setSubmitted(false);
     },
+    blobPropertyBag: { type: "audio/mp3" },
   });
 
   const handleCancel = () => {
@@ -28,26 +31,31 @@ const AudioRecorder: FC<{
     setSubmitted(false);
     recorder.stopRecording();
     recorder.clearBlobUrl();
+    stopRecording();
   };
 
   return (
-    <div className="flex flex-col items-center gap-3">
+    <div className="flex  items-center gap-3">
       {/* <p>{recorder.status}</p> */}
-      {recorder.status !== "recording" && (
+      {recorder.status !== "recording" && !blob && (
         <Button
-          onClick={recorder.startRecording}
+          onClick={() => {
+            recorder.startRecording();
+            startRecording();
+          }}
           disabled={loading}
           variant="ghost"
           className="hover:bg-transparent hover:text-primary cursor-pointer"
         >
           <Mic />
-          Start Recording
         </Button>
       )}
 
       {recorder.status === "recording" && (
         <Button
-          onClick={recorder.stopRecording}
+          onClick={() => {
+            recorder.stopRecording();
+          }}
           disabled={loading}
           variant="ghost"
           className="hover:bg-transparent hover:text-primary cursor-pointer"
@@ -64,12 +72,20 @@ const AudioRecorder: FC<{
       {blob && !submitted && (
         <div className="flex gap-2">
           <Button
+            type="button"
+            onClick={handleCancel}
+            disabled={loading}
+            className="cursor-pointer"
+          >
+            Cancel
+          </Button>
+          <Button
             onClick={async () => {
               if (!blob) throw new Error("Missing blob");
 
               const formData = new FormData();
               formData.append("classId", String(classId));
-              formData.append("file", blob, "recording.webm");
+              formData.append("file", blob, "recording.mp3");
 
               setLoading(true);
 
@@ -80,24 +96,16 @@ const AudioRecorder: FC<{
 
               const data = await response.json();
               data.createdAt = new Date(data.createdAt);
-
+              stopRecording();
               setLoading(false);
               addFile(data);
               setSubmitted(true);
+              setBlob(undefined)
             }}
             disabled={loading}
             className="cursor-pointer"
           >
             Submit
-          </Button>
-
-          <Button
-            type="button"
-            onClick={handleCancel}
-            disabled={loading}
-            className="cursor-pointer"
-          >
-            Cancel
           </Button>
         </div>
       )}

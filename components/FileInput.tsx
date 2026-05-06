@@ -12,7 +12,7 @@ export const FileInput: FC<{
   const [loading, setLoading] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   return (
-    <div className="h-full w-full flex justify-center">
+    <>
       <input
         type="file"
         name="file"
@@ -52,8 +52,8 @@ export const FileInput: FC<{
         onClick={() => inputRef.current?.click()}
         className="hover:bg-transparent hover:text-primary cursor-pointer"
       >
-        <Paperclip className="w-8 h-8" /> Attach file
+        <Paperclip className="w-8 h-8" />
       </Button>
-    </div>
+    </>
   );
 };

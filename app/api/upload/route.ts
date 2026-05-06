@@ -33,14 +33,19 @@ export async function POST(request: Request) {
       },
     );
   }
+  console.log("file.name", file.name);
+  console.log("file.type", file.type);
   const array = await file.arrayBuffer();
   const buffer = Buffer.from(array);
   const base64 = buffer.toString("base64");
   const dataURI = `data:${file.type};base64,${base64}`;
-
+  const isMp3 = file.type === "audio/mp3";
+  const format = isMp3 ? "mp3" : undefined;
   const result = await v2.uploader.upload(dataURI, {
     resource_type: "auto",
+    format,
   });
+  console.log("result", result);
   const [insertedFile] = await db
     .insert(filesTable)
     .values({ userId: user.id, url: result.url, classId: Number(classId) })

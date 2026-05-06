@@ -34,6 +34,7 @@ export const ClassPageContent: FC<{
   const [classRow, setClassRow] = useState(relatedClass);
   const [messages, setMessages] = useState(messageRows);
   const [files, setFiles] = useState(fileRows);
+  const [audioRecording, setAudioRecording] = useState(false);
 
   const router = useRouter();
 
@@ -99,6 +100,14 @@ export const ClassPageContent: FC<{
     setMessages(newMessage);
   }
 
+  function startRecording() {
+    setAudioRecording(true);
+  }
+
+  function stopRecording() {
+    setAudioRecording(false);
+  }
+
   return (
     <div className="flex flex-col gap-3">
       <Navbar user={currentUser} />
@@ -117,16 +126,22 @@ export const ClassPageContent: FC<{
         currentUser={currentUser}
       />
 
-      <CreateMessageForm classId={relatedClass.id} addMessage={addMessage} />
-
-      <div className="flex w-full gap-2 items-stretch">
-        <div className="flex-1 p-2 border rounded-md">
-          <AudioRecorder classId={relatedClass.id} addFile={addFile} />
-        </div>
-
-        <div className="flex-1 p-2 border rounded-md flex items-center">
-          <FileInput classId={relatedClass.id} addFile={addFile} />
-        </div>
+      <div className="flex w-full flex-row-reverse items-center">
+        {!audioRecording && (
+          <>
+            <CreateMessageForm
+              classId={relatedClass.id}
+              addMessage={addMessage}
+            />
+            <FileInput classId={relatedClass.id} addFile={addFile} />
+          </>
+        )}
+        <AudioRecorder
+          classId={relatedClass.id}
+          addFile={addFile}
+          startRecording={startRecording}
+          stopRecording={stopRecording}
+        />
       </div>
     </div>
   );

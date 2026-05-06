@@ -24,6 +24,7 @@ export const MessageList: FC<{
       return -1;
     }
   });
+
   return (
     <div className="flex h-full flex-col">
       <ScrollArea className="flex-1 w-full rounded-md border p-4">
@@ -64,7 +65,7 @@ export const MessageList: FC<{
                       "max-w-[95%] rounded-2xl px-4 py-2 shadow-sm text-sm",
                       isMe
                         ? "bg-primary text-primary-foreground rounded-tr-none"
-                        : "bg-muted text-foreground rounded-tl-none border",
+                        : "bg-primary-foreground text-foreground rounded-tl-none border",
                     )}
                   >
                     {"content" in item ? (
@@ -72,7 +73,7 @@ export const MessageList: FC<{
                         {item.content}
                       </p>
                     ) : isAudio ? (
-                      <AudioPlayer src={item.url} />
+                      <AudioPlayer src={item.url} darkMode={isMe} />
                     ) : (
                       <CustomLink
                         href={item.url}
@@ -95,7 +96,6 @@ export const MessageList: FC<{
                     </div>
                   </div>
 
-                  {/* Delete Actions */}
                   <div className="shrink-0">
                     {"content" in item ? (
                       <DeleteMessageBtn

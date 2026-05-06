@@ -3,7 +3,7 @@
 import { RelatedStudent, Student } from "@/types";
 import { FC, useState } from "react";
 import { Button } from "@/components/ui/button";
-
+import { useRouter } from "next/navigation";
 
 export const JoinClassBtn: FC<{
   classId: number;
@@ -20,6 +20,7 @@ export const JoinClassBtn: FC<{
   removeStudent,
   teacherUserId,
 }) => {
+  const router = useRouter();
   const [loading, setLoading] = useState(false);
   const student = students.find((student) => {
     return student.userId === userId;
@@ -28,7 +29,7 @@ export const JoinClassBtn: FC<{
   if (userId === teacherUserId) {
     return <></>;
   }
-  
+
   if (student) {
     return (
       <Button
@@ -42,10 +43,11 @@ export const JoinClassBtn: FC<{
           const data = await response.json();
           if (response.ok) {
             removeStudent(classId, student.id);
+            router.push("/");
           } else {
             alert(data.message);
+            setLoading(false);
           }
-          setLoading(false);
         }}
         disabled={loading}
       >
@@ -65,10 +67,11 @@ export const JoinClassBtn: FC<{
         const data = await response.json();
         if (response.ok) {
           addStudent(classId, data.student);
+          router.push(`/class/${classId}`);
         } else {
           alert(data.message);
+          setLoading(false);
         }
-        setLoading(false);
       }}
       disabled={loading}
     >

@@ -13,6 +13,7 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
+  const [message, setMessage] = useState<string>();
 
   return (
     <FieldSet className="flex items-center justify-center min-h-screen">
@@ -28,13 +29,20 @@ export default function LoginPage() {
         <p className="text-center m-3">Log in to continue your journey</p>
         <form
           onSubmit={async (event) => {
+            // This code runs after the form is submitted
             setLoading(true);
             event.preventDefault();
-            await fetch("/api/login/", {
+            const response = await fetch("/api/login/", {
               method: "POST",
               body: JSON.stringify({ name, password }),
             });
-            router.push("/");
+            if (response.ok) {
+              // This code runs after a successful submission
+              router.push("/");
+            } else {
+              setMessage("Failed to log in");
+              setLoading(false);
+            }
           }}
           className="flex flex-col gap-2"
         >
@@ -44,6 +52,7 @@ export default function LoginPage() {
               value={name}
               onChange={(event) => {
                 setName(event.target.value);
+                setMessage(undefined);
               }}
               placeholder="Enter your username"
             />
@@ -55,6 +64,7 @@ export default function LoginPage() {
                 value={password}
                 onChange={(event) => {
                   setPassword(event.target.value);
+                  setMessage(undefined);
                 }}
                 type={showPassword ? "text" : "password"}
                 placeholder="Enter your password"
@@ -66,11 +76,14 @@ export default function LoginPage() {
                 type="button"
                 className="absolute right-2 inset-y-0"
               >
-                {showPassword ?  <EyeOff /> : <Eye />}
+                {showPassword ? <EyeOff /> : <Eye />}
               </button>
             </div>
           </Field>
-          <Button className="m-1" disabled={loading}>Submit</Button>
+          <Button className="m-1" disabled={loading}>
+            Submit
+          </Button>
+          {message && <p>{message}</p>}
         </form>
         <CustomLink href="/register">Register</CustomLink>
       </FieldGroup>
