@@ -3,7 +3,6 @@ import { RelatedClass, Student } from "@/types";
 import { DeleteClassBtn } from "./DeleteClassBtn";
 import {
   Item,
-  ItemActions,
   ItemContent,
   ItemDescription,
   ItemMedia,
@@ -56,34 +55,33 @@ export default function ClassDetails({
               href={`/class/${classRow.id}`}
               className="block text-left px-0 h-auto"
             >
-              Teacher: {classRow.teacher.name}
+              {classRow.title}
             </CustomLink>
           ) : (
-            <span className="block text-left">
-              Teacher: {classRow.teacher.name}
-            </span>
+            <span className="block text-left">{classRow.title}</span>
           )}
         </ItemTitle>
-        <ItemDescription className="w-full flex flex-wrap gap-2">
-          Students: <Badge>{studentsCount}</Badge>
+        <ItemDescription className="w-full flex flex-wrap gap-2 items-center justify-between">
+          Teacher: {classRow.teacher.name}
+          <span>
+            Students: <Badge>{studentsCount}</Badge>
+          </span>
+          <JoinClassBtn
+            classId={classRow.id}
+            students={classRow.students}
+            userId={currentUserId}
+            addStudent={addStudent}
+            removeStudent={removeStudent}
+            teacherUserId={classRow.teacherUserId}
+          />{" "}
+          <DeleteClassBtn
+            classId={classRow.id}
+            teacherUserId={classRow.teacherUserId}
+            currentUserId={currentUserId}
+            deleteClass={deleteClass}
+          />
         </ItemDescription>
       </ItemContent>
-      <ItemActions>
-        <JoinClassBtn
-          classId={classRow.id}
-          students={classRow.students}
-          userId={currentUserId}
-          addStudent={addStudent}
-          removeStudent={removeStudent}
-          teacherUserId={classRow.teacherUserId}
-        />{" "}
-        <DeleteClassBtn
-          classId={classRow.id}
-          teacherUserId={classRow.teacherUserId}
-          currentUserId={currentUserId}
-          deleteClass={deleteClass}
-        />
-      </ItemActions>
     </Item>
   );
 }

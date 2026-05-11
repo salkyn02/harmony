@@ -14,6 +14,7 @@ export const classesTable = pgTable("classes", {
     .references(() => usersTable.id, {
       onDelete: "cascade",
     }),
+  title: text().notNull()  
 });
 
 export const studentsTable = pgTable("students", {
@@ -49,6 +50,8 @@ export const filesTable = pgTable("file", {
   url: text().notNull(),
   createdAt: timestamp().defaultNow().notNull(),
 });
+
+
 
 export const usersRelations = relations(usersTable, ({ many }) => ({
   classes: many(classesTable),

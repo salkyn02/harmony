@@ -3,7 +3,7 @@
 import { RelatedClass, RelatedStudent, Student, User } from "@/types";
 import { FC, useState } from "react";
 import { ClassList } from "./ClassList";
-import { CreateClassBtn } from "./CreateClassBtn";
+import { CreateClassForm } from "./CreateClassForm";
 
 export const HomeController: FC<{
   classes: RelatedClass[];
@@ -64,15 +64,11 @@ export const HomeController: FC<{
 
   return (
     <div className="flex flex-col justify-between gap-4">
-      <div className="flex justify-between p-1">
+      <div className="flex flex-col justify-between p-1 gap-4 md:flex-row-reverse md:items-center">
+        <CreateClassForm addClass={addClass} />
         <h3 className="font-semibold pl-1">
           Class List ({relatedClasses.length})
         </h3>
-        <CreateClassBtn
-          userId={currentUserId}
-          classes={relatedClasses}
-          addClass={addClass}
-        />
       </div>
 
       <ClassList
