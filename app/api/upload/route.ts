@@ -33,8 +33,7 @@ export async function POST(request: Request) {
       },
     );
   }
-  console.log("file.name", file.name);
-  console.log("file.type", file.type);
+
   const array = await file.arrayBuffer();
   const buffer = Buffer.from(array);
   const base64 = buffer.toString("base64");
@@ -45,7 +44,7 @@ export async function POST(request: Request) {
     resource_type: "auto",
     format,
   });
-  console.log("result", result);
+
   const [insertedFile] = await db
     .insert(filesTable)
     .values({ userId: user.id, url: result.url, classId: Number(classId) })
